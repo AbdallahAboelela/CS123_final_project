@@ -8,6 +8,7 @@
 from google.cloud import bigquery
 import matplotlib.pyplot as plt
 
+
 def map_pickups(limit):
     client = bigquery.Client()
     dataset_table_id = '`bigquery-public-data.new_york.tlc_yellow_trips_2010`'
