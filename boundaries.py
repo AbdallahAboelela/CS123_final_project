@@ -25,8 +25,8 @@ def construct_G_adj():
         speed_lims_bounds['miny'], method='kdtree')
     speed_lims['v'] = ox.get_nearest_nodes(G, speed_lims_bounds['maxx'],\
         speed_lims_bounds['maxy'], method='kdtree')
-    speed_lims['A'] = speed_lims['u'].astype(str).str + ' ' + speed_lims['v'].astype(str).str
-    speed_lims['B'] = speed_lims['v'].astype(str).str + ' ' + speed_lims['u'].astype(str).str
+    speed_lims['A'] = speed_lims['u'].map(str) + ' ' + speed_lims['v'].astype(str)
+    speed_lims['B'] = speed_lims['v'].map(str) + ' ' + speed_lims['u'].astype(str)
 
     speed_lims.drop(['geometry', 'u', 'v'], axis=1, inplace=True)
 
@@ -34,15 +34,12 @@ def construct_G_adj():
 
     # dataframe 
     nodes_proj, edges_proj = ox.graph_to_gdfs(G, nodes=True, edges=True)
-    edges_proj
+    edges_proj['A'] = edges_proj['u'].map(str) + ' ' + edges_proj['v'].astype(str)
 
-    ### merge the data frame
-    merge_u_u = edges_proj.merge(speed_lims, how='left', left_on=['u'], right_on=['u'])
-    merge_u_v = edges_proj.merge(speed_lims, how='left', left_on=['u'], right_on=['v'])
-    
-    merged_df_1 = edges_proj.merge(speed_lims, how='left', left_on=['u', 'v'], right_on=['u', 'v'])
-    merged_df_2 = edges_proj.merge(speed_lims, how='left', left_on=['u', 'v'], right_on=['v', 'u'])
-    merged_df = merged_df_1.merge(merged_df_2)
+    ### merge the data frame    
+    merged_df_1 = edges_proj.merge(speed_lims, how='left', on='A')
+    merged_df_2 = edges_proj.merge(speed_lims, how='left', left_on=['A'], right_on=['B'])
+    merged_df = merged_df_1.merge(merged_df_2, on='A')
     ##
 
     merged_df['time'] = merged_df['length'] / merged_df['postvz_sl']
