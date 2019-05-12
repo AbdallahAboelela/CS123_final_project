@@ -39,7 +39,7 @@ def construct_G_adj():
     ### merge the data frame    
     merged_df_1 = edges_proj.merge(speed_lims, how='left', on='A')
     merged_df_2 = edges_proj.merge(speed_lims, how='left', left_on=['A'], right_on=['B'])
-    merged_df = merged_df_1.merge(merged_df_2, on='A')
+    merged_df = merged_df_1.merge(merged_df_2, left_on=['A'], right_on=['A_x'])
     ##
 
     merged_df['time'] = merged_df['length'] / merged_df['postvz_sl']
@@ -61,7 +61,7 @@ def get_path_time(G, curr_loc, dest_loc):
     times = []
     for i in len(route):
         pair = (route[i], route[i+1])
-        time = edges_proj.loc[(edges_proj['u']==pair[0]) & (edges_proj['v']==pair[1], 'time'))]
+        time = edges_proj.loc[(edges_proj['u']==pair[0]) & (edges_proj['v']==pair[1], 'time')]
         pairs.append(pair)
         times.append(time)
 
