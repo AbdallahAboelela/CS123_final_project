@@ -51,8 +51,8 @@ def construct_G_adj():
     merged_df['postvz_sl_x'][nan_speed_2] = 25
 
     ##
-    # 'length' is in meters so need to convert to miles 
-    merged_df['postvz_sl_x'] *= 1609.34
+    # 'length' is in meters so need to convert miles to meters
+    merged_df['postvz_sl_x'] *= 1609.34 / 60
     print(merged_df.columns)
     merged_df['time'] = merged_df['length'] / merged_df['postvz_sl_x']
     merged_df.drop(['postvz_sl_x'], axis=1, inplace=True)
