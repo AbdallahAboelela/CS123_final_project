@@ -6,6 +6,8 @@
 from mrjob.job import MRJob
 from google.cloud import bigquery
 import pandas as pd
+from osmnx_work import boundaries 
+import pickle
 
 # ASKS Prof WACHS HOW TO READ FROM GOOGLE
 
@@ -28,9 +30,12 @@ def plot(mrjob_result):
     plt.show()
 
 class MRNodeTime(MRJob):
+    def mapper_init(self):
+        self.G = pickle.load(open('../osmnx_work/G_adj.p', 'rb'))
+
     def mapper(self, _, line):
         p_lat, p_long, d_lat, d_long = line.split(',')
-        paths, times = adam_kei.get(p_lat, p_long, d_lat, d_long)
+        paths, times = boundaries.get_path_time(self.G, (p_lat, p_long), (d_lat, d_long))
         
         for i, n1, n2 in enumerate(paths):
             time = times[i]
