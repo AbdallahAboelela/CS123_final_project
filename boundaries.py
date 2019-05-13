@@ -62,7 +62,7 @@ def construct_G_adj():
 
 def get_path_time(G, curr_loc, dest_loc):
 
-    pickle.load(open('adj_G.p', 'rb'))
+    pickle.load(open('G_adj.p', 'rb'))
 
     orig_node = ox.get_nearest_node(G, curr_loc, method='euclidean')
     target_node = ox.get_nearest_node(G, dest_loc, method='euclidean')
