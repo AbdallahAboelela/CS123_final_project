@@ -1,45 +1,26 @@
 # Map Reduce for Project KASA
 # 8 May, 2019
 
-
-# import PLACEHOLDER FOR KEI AND ADAM
 from mrjob.job import MRJob
 from google.cloud import bigquery
 import pandas as pd
-from osmnx_work import boundaries 
+import boundaries 
 import pickle
-
-# ASKS Prof WACHS HOW TO READ FROM GOOGLE
-
-def get_trips_df(limit):
-    client = bigquery.Client()
-    dataset_table_id = '`bigquery-public-data.new_york.tlc_yellow_trips_2009`'
-
-    sql = '''SELECT pickup_latitude as p_lat, pickup_longitude as p_long,
-        dropoff_latitude as d_lat, dropoff_longitude as d_long
-        FROM ''' + dataset_table_id + ''' 
-        LIMIT ''' + str(limit) + ';'
-
-    trips = client.query(sql).to_dataframe()
-
-    return trips
-
-# ASKS Prof WACHS plottig with MRjob (see bigquery.py)
-def plot(mrjob_result):
-    plt.plot(x, x)
-    plt.show()
 
 class MRNodeTime(MRJob):
     def mapper_init(self):
-        self.G = pickle.load(open('../osmnx_work/G_adj.p', 'rb'))
+        self.G = pickle.load(open('G_adj.p', 'rb'))
 
     def mapper(self, _, line):
-        p_lat, p_long, d_lat, d_long = line.split(',')
+        l = line.split(',')
+        d_lat, d_long = l[2:4]
+        p_lat, p_long = l[13:15]
+
         paths, times = boundaries.get_path_time(self.G, (p_lat, p_long), (d_lat, d_long))
         
-        for i, n1, n2 in enumerate(paths):
+        for i, nodes in enumerate(paths):
             time = times[i]
-            yield (min([n1, n2]), max([n1, n2])), time
+            yield (min(nodes), max(nodes)), time
 
     def combiner(self, path, times):
         yield path, sum(times)

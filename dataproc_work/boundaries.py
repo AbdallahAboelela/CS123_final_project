@@ -5,6 +5,7 @@ Purpose: Merge polygon shapefiles for New York boroughs, then turn
 import osmnx as ox
 import geopandas as gpd
 from shapely.ops import cascaded_union
+import networkx as nx
 import itertools
 import pickle
 
@@ -70,10 +71,15 @@ def get_path_time(G, curr_loc, dest_loc):
 
     pairs = []
     times = []
-    for i in len(route):
+    for i in range(len(route) - 1):
         pair = (route[i], route[i+1])
-        time = edges_proj.loc[(edges_proj['u']==pair[0]) & (edges_proj['v']==pair[1], 'time')]
+        time = float(edges_proj.loc[(edges_proj['u']==pair[0]) & (edges_proj['v']==pair[1]), 'time'])
         pairs.append(pair)
         times.append(time)
 
-    return pairs, times 
+    return pairs, times
+
+
+
+
+
