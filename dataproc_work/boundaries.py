@@ -73,7 +73,11 @@ def get_path_time(G, curr_loc, dest_loc):
     times = []
     for i in range(len(route) - 1):
         pair = (route[i], route[i+1])
-        time = float(edges_proj.loc[(edges_proj['u']==pair[0]) & (edges_proj['v']==pair[1]), 'time'])
+        try:
+            time = float(edges_proj.loc[(edges_proj['u']==pair[0]) & (edges_proj['v']==pair[1]), 'time'])
+        except:
+            print('Boundaries line 79 failure')
+            time = edges_proj.loc[(edges_proj['u']==pair[0]) & (edges_proj['v']==pair[1]), 'time']
         pairs.append(pair)
         times.append(time)
 
