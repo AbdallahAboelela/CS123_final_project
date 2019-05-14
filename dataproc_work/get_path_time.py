@@ -38,8 +38,8 @@ def get_route(G, curr_loc, dest_loc):
         else:
             route_i = route[i * thread_size:]
         t_i = threading.Thread(target=get_path_time, args=(G, route_i, threads_list, i)) 
-        print('what is t_i', t_i)
         threads.append(t_i)
+
     for i in range(4):
         threads[i].start()
     for i in range(4):
