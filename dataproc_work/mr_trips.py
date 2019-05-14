@@ -1,12 +1,16 @@
 # Map Reduce for Project KASA
 # 8 May, 2019
 
+os.system("sudo apt-get install pandas -y")
+os.system("sudo apt-get install osmnx -y")
+os.system("sudo apt-get install  -y")
+os.system("sudo apt-get install python-sklearn -y")
+
+
 from mrjob.job import MRJob
-from google.cloud import bigquery
 import pandas as pd
 import boundaries 
 import pickle
-from google.cloud import storage
 
 TITLES = ["dropoff_latitude", "dropoff_longitude", "pickup_latitude", "pickup_longitude"]
 
