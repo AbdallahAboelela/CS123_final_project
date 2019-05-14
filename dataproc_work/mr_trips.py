@@ -18,18 +18,11 @@ class MRNodeTime(MRJob):
         d_lat, d_long = l[2:4]
         p_lat, p_long = l[13:15]
 
-        try:
-            paths, times = boundaries.get_path_time(self.G, (p_lat, p_long), (d_lat, d_long))
+        paths, times = boundaries.get_path_time(self.G, (p_lat, p_long), (d_lat, d_long))
 
-            for i, nodes in enumerate(paths):
-                time = times[i]
-                yield (min(nodes), max(nodes)), time
-
-        except Exception as e:
-            pass
-
-    def combiner_init(self):
-        print("Reached combiner stage")
+        for i, nodes in enumerate(paths):
+            time = times[i]
+            yield (min(nodes), max(nodes)), time
 
     def combiner(self, path, times):
         yield path, sum(times)
