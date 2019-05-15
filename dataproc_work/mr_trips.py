@@ -1,12 +1,7 @@
 # Map Reduce for Project KASA
 # 8 May, 2019
 
-os.system("sudo apt-get install pandas -y")
-os.system("sudo apt-get install osmnx -y")
-os.system("sudo apt-get install  -y")
-os.system("sudo apt-get install python-sklearn -y")
-
-
+import os
 from mrjob.job import MRJob
 import pandas as pd
 import boundaries 
@@ -52,4 +47,7 @@ class MRNodeTime(MRJob):
         yield path, sum(times)
 
 if __name__ == '__main__':
+    os.system("sudo apt-get install pandas -y")
+    os.system("sudo apt-get install osmnx -y")
+    os.system("sudo apt-get install  mrjob -y")
     MRNodeTime.run()
