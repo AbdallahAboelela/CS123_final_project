@@ -1,0 +1,11 @@
+No configs found; falling back on auto-configuration
+No configs specified for inline runner
+Creating temp directory /var/folders/b6/hbynblf53b12kz92j0r6l9jr0000gn/T/mr_trips.abdallahaboelela.20190516.145151.767431
+Running step 1 of 1...
+job output is in /var/folders/b6/hbynblf53b12kz92j0r6l9jr0000gn/T/mr_trips.abdallahaboelela.20190516.145151.767431/output
+Streaming final output from /var/folders/b6/hbynblf53b12kz92j0r6l9jr0000gn/T/mr_trips.abdallahaboelela.20190516.145151.767431/output...
+Removing temp directory /var/folders/b6/hbynblf53b12kz92j0r6l9jr0000gn/T/mr_trips.abdallahaboelela.20190516.145151.767431...
+
+real	44m44.322s
+user	43m29.454s
+sys	0m53.517s

@@ -7,11 +7,11 @@
 # To stream time output into time.txt run
 # { time python3 mr_trips.py duper_short.csv > test_write.csv ; } 2> time.txt
 
-import os
 from mrjob.job import MRJob
 import pandas as pd
 import pickle
 from datetime import datetime
+import boundaries
 
 class MRNodeTime(MRJob):
 
@@ -39,7 +39,7 @@ class MRNodeTime(MRJob):
             p_dt = datetime.strptime(l[12], '%Y-%m-%d %H:%M:%S')
 
             try:
-                paths, times = get_path_time(self.G, (p_lat, p_long), (d_lat, d_long))
+                paths, times = boundaries.get_path_time(self.G, (p_lat, p_long), (d_lat, d_long))
 
                 ideal_tot_time = sum(times)
                 actual_tot_time = (d_dt - p_dt).seconds / 60
