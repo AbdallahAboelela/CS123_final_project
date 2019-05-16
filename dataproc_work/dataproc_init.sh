@@ -2,8 +2,8 @@
 
 curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 
-python get-pip.py -y
+python get-pip.py
 
-sudo pip3 install mrjob -y
-sudo pip3 install geopandas -y
-sudo pip3 install osmnx -y
+pip3 install mrjob
+pip3 install geopandas
+pip3 install osmnx
