@@ -7,6 +7,12 @@
 # To stream time output into time.txt run
 # { time python3 mr_trips.py duper_short.csv > test_write.csv ; } 2> time.txt
 
+import os
+os.system("pip3 install --user --upgrade pip")
+os.system("pip3 install --user pandas")
+os.system("pip3 install --user osmnx")
+os.system("pip3 install --user networkx")
+
 from mrjob.job import MRJob
 import pandas as pd
 import pickle
