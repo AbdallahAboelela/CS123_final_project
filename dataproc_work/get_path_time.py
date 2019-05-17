@@ -24,7 +24,8 @@ def get_path_time(G, route, result, j):
 def get_route(G, curr_loc, dest_loc):
     orig_node = ox.get_nearest_node(G, curr_loc, method='euclidean')
     target_node = ox.get_nearest_node(G, dest_loc, method='euclidean')
-    route = nx.shortest_path(G, source=orig_node, target=target_node, weight='time')
+    #route = nx.shortest_path(G, source=orig_node, target=target_node, weight='time')
+    route = nx.astar_path(G, source=orig_node, target=target_node, weight='time')
 
     thread_size = len(route) // 4
     threads = []
