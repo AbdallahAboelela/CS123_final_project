@@ -10,8 +10,11 @@
 import os
 os.system("pip3 install --user --upgrade pip")
 os.system("pip3 install --user pandas")
-os.system("pip3 install --user osmnx")
 os.system("pip3 install --user networkx")
+os.system("pip3 install --user mrjob")
+os.system("sudo apt install python3-rtree")
+os.system("brew install spatialindex")
+os.system("pip3 install --user osmnx")
 
 from mrjob.job import MRJob
 import pandas as pd
