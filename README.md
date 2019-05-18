@@ -33,3 +33,5 @@ To pull files from GCS bucket, use gsutil command
     - sudo pip3 install osmnx
     - sudo apt-get install python3-rtree
     - sudo pip3 install networkx
+
+    - sudo apt-get install libspatialindex-dev
