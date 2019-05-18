@@ -9,8 +9,8 @@
 
 import os
 os.system("sudo -H pip3 install --upgrade pip")
-os.system("sudo -H pip3 install wheel")
-os.system("sudo -H pip3 install pandas")
+#os.system("sudo -H pip3 install wheel")
+#os.system("sudo -H pip3 install pandas")
 os.system("sudo -H pip3 install mrjob")
 os.system("xcode-select --install")
 os.system('/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"')
@@ -22,7 +22,7 @@ os.system("sudo apt install python3-rtree")
 os.system("sudo -H pip3 install networkx")
 
 from mrjob.job import MRJob
-import pandas as pd
+#import pandas as pd
 import pickle
 from datetime import datetime
 import boundaries
@@ -30,11 +30,11 @@ import boundaries
 class MRNodeTime(MRJob):
 
     def mapper_init(self):
-        
         # self.G = pickle.load(open('/Users/keiirizawa/Desktop/CS123_final_project/dataproc_work/G_adj.p', 'rb'))
-        
-        self.G = pickle.load(open('/Users/abdallahaboelela/Documents/GitHub/'
-            'CS123_final_project/dataproc_work/G_adj.p', 'rb'))
+        self.G = pickle.load(open('/Users/adamalexanderoppenheimer/Desktop/CS123_final_project/dataproc_work/G_adj.p', 'rb'))
+
+        #self.G = pickle.load(open('/Users/abdallahaboelela/Documents/GitHub/'
+        #    'CS123_final_project/dataproc_work/G_adj.p', 'rb'))
 
     def mapper(self, _, line):
 

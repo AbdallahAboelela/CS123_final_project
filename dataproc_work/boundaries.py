@@ -10,6 +10,7 @@ import itertools
 import pickle
 
 def construct_G_adj():
+    import pandas as pd
     borough_bds = gpd.read_file('borough_bds.geojson')
     ## Source: https://stackoverflow.com/questions/40385782/
     ## make-a-union-of-polygons-in-python-geopandas-or-shapely-into-a-single-geometr
