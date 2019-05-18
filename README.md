@@ -22,4 +22,14 @@ To pull files from GCS bucket, use gsutil command
 ### Note for Kei (how to use MRJOB):
 (1) export GOOGLE_APPLICATION_CREDENTIALS=/Users/keiirizawa/Desktop/kei_api_key.json
 (1) export GOOGLE_APPLICATION_CREDENTIALS=/Users/adamalexanderoppenheimer/Desktop/new_google_api_key.json
-(2) python3 mr_trips.py -r dataproc --num-core-instances 4 csvs/first_hundred.csv
+(2) time python3 mr_trips.py -r dataproc --num-core-instances 4 --conf-path /Users/adamalexanderoppenheimer/Desktop/CS123_final_project/dataproc_work/mrjob.conf csvs/first_hundred.csv
+
+
+    - sudo pip3 install --upgrade pip
+    - sudo pip3 install mrjob
+    - xcode-select --install
+    - /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    - brew install spatialindex
+    - sudo pip3 install osmnx
+    - sudo apt-get install python3-rtree
+    - sudo pip3 install networkx
