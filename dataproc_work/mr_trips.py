@@ -9,6 +9,7 @@
 
 import os
 os.system("sudo -H pip3 install --upgrade pip")
+os.system("sudo -H pip3 install wheel")
 os.system("sudo -H pip3 install pandas")
 os.system("sudo -H pip3 install mrjob")
 os.system("xcode-select --install")
