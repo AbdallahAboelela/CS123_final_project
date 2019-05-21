@@ -7,19 +7,19 @@
 # To stream time output into time.txt run
 # { time python3 mr_trips.py duper_short.csv > test_write.csv ; } 2> time.txt
 
-import os
-os.system("sudo pip3 install --upgrade pip")
-#os.system("sudo -H pip3 install wheel")
-#os.system("sudo -H pip3 install pandas")
-os.system("sudo pip3 install mrjob")
-os.system("xcode-select --install")
-os.system('/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"')
-os.system("brew install spatialindex")
-#os.system("pip3 uninstall osmnx")
-os.system("sudo pip3 install osmnx")
-os.system("sudo apt install python3-rtree")
-#os.system("pip3 uninstall networkx")
-os.system("sudo pip3 install networkx")
+# import os
+# os.system("sudo pip3 install --upgrade pip")
+# #os.system("sudo -H pip3 install wheel")
+# #os.system("sudo -H pip3 install pandas")
+# os.system("sudo pip3 install mrjob")
+# os.system("xcode-select --install")
+# os.system('/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"')
+# os.system("brew install spatialindex")
+# #os.system("pip3 uninstall osmnx")
+# os.system("sudo pip3 install osmnx")
+# os.system("sudo apt install python3-rtree")
+# #os.system("pip3 uninstall networkx")
+# os.system("sudo pip3 install networkx")
 
 from mrjob.job import MRJob
 #import pandas as pd
