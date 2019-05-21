@@ -52,6 +52,10 @@ def map(res_fname, g_fname):
         lat1, lon1 = nodes.loc[n1]
         lat2, lon2 = nodes.loc[n2]
 
+        plt.plot([lat1, lat2], [lon1, lon2], 'r', linewidth = 1, 
+            alpha = 0.05 * time_spent)
+
+    plt.show()
 
 if __name__ == "__main__":
     res_fname = sys.argv[1]
