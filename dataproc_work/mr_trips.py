@@ -92,6 +92,8 @@ class MRNodeTime(MRJob):
                     time = times[i]
 
                     yield str((min(nodes), max(nodes))), time/ideal_tot_time * actual_tot_time
+                    # This line needs to be changed to a proportion instead of time measure
+                    # We want delay not just streets that are driven on a lot
 
             except:
                 pass
