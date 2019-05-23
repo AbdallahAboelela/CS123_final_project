@@ -91,11 +91,7 @@ class MRNodeTime(MRJob):
                 actual_tot_time = (d_dt - p_dt).seconds / 60
 
                 for i, nodes in enumerate(paths):
-                    time = times[i]
-
-                    yield str((min(nodes), max(nodes))), time/ideal_tot_time * actual_tot_time
-                    # This line needs to be changed to a proportion instead of time measure
-                    # We want delay not just streets that are driven on a lot
+                    yield str((min(nodes), max(nodes))), actual_tot_time/ideal_tot_time
 
             except:
                 pass
