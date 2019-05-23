@@ -18,4 +18,4 @@ def setup_vm():
     os.system('sudo pip3 install networkx')
 
 def run_code():
-    os.system('python3 mr_trips.py first_hundred.csv')
+    os.system('time python3 mr_trips.py first_hundred.csv > output.txt')
