@@ -7,7 +7,8 @@
 # To stream time output into time.txt run
 # { time python3 mr_trips.py duper_short.csv > test_write.csv ; } 2> time.txt
 
-# import os
+import os
+print(os.listdir())
 # os.system("sudo pip3 install --upgrade pip")
 # #os.system("sudo -H pip3 install wheel")
 # #os.system("sudo -H pip3 install pandas")
@@ -60,7 +61,8 @@ class MRNodeTime(MRJob):
 
     def mapper_init(self):
         # self.G = pickle.load(open('/Users/keiirizawa/Desktop/CS123_final_project/dataproc_work/G_adj.p', 'rb'))
-        self.G = pickle.load(open('/Users/adamalexanderoppenheimer/Desktop/CS123_final_project/dataproc_work/G_adj.p', 'rb'))
+        G_adj_path = '/home/adam_a_oppenheimer/G_adj.p' #os.path.abspath('G_adj.p')
+        self.G = pickle.load(open(G_adj_path, 'rb'))
 
         #self.G = pickle.load(open('/Users/abdallahaboelela/Documents/GitHub/'
         #    'CS123_final_project/dataproc_work/G_adj.p', 'rb'))
@@ -73,15 +75,15 @@ class MRNodeTime(MRJob):
 
         if not d_lat == "dropoff_latitude":
             
-            d_lat = float(d_lat)
-            d_long = float(d_long)
-            p_lat = float(p_lat)
-            p_long = float(p_long)
-
-            d_dt = datetime.strptime(l[1], '%Y-%m-%d %H:%M:%S')
-            p_dt = datetime.strptime(l[12], '%Y-%m-%d %H:%M:%S')
-
             try:
+                d_lat = float(d_lat)
+                d_long = float(d_long)
+                p_lat = float(p_lat)
+                p_long = float(p_long)
+
+                d_dt = datetime.strptime(l[1], '%Y-%m-%d %H:%M:%S')
+                p_dt = datetime.strptime(l[12], '%Y-%m-%d %H:%M:%S')
+
                 paths, times = get_path_time(self.G, (p_lat, p_long), (d_lat, d_long))
                 #formerly boundaries.get_path_time
 
