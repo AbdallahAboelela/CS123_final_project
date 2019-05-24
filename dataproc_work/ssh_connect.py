@@ -19,3 +19,6 @@ def setup_vm():
 
 def run_code():
     os.system('time python3 mr_trips.py first_hundred.csv > output.txt')
+
+def save_output():
+    os.system('scp -i ~/.ssh/google-cloud-cs123 adam_a_oppenheimer@35.202.2.231:~/output.txt ./')
