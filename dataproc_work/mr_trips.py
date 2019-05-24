@@ -98,11 +98,6 @@ class MRNodeTime(MRJob):
                     # This line needs to be changed to a proportion instead of time measure
                     # We want delay not just streets that are driven on a lot
             except:
-                print('Failure. Diagnose later')
-                print('d_lat: ', d_lat)
-                print('d_long: ', d_long)
-                print('p_lat: ', p_lat)
-                print('p_long: ', p_long)
                 pass
 
     def combiner(self, path, times):
