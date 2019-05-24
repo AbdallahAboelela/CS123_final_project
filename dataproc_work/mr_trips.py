@@ -62,7 +62,9 @@ class MRNodeTime(MRJob):
     def mapper_init(self):
         # self.G = pickle.load(open('/Users/keiirizawa/Desktop/CS123_final_project/dataproc_work/G_adj.p', 'rb'))
         #G_adj_path = '/home/adam_a_oppenheimer/G_adj.p' #os.path.abspath('G_adj.p')
-        G_adj_path = '/Users/keiirizawa/Desktop/CS123_final_project/dataproc_work/G_adj.p'
+        #G_adj_path = '/Users/adamalexanderoppenheimer/Desktop/CS123_final_project/dataproc_work/G_adj.p'
+        #G_adj_path = '/Users/keiirizawa/Desktop/CS123_final_project/dataproc_work/G_adj.p'
+        G_adj_path = 'G_adj.p'
         self.G = pickle.load(open(G_adj_path, 'rb'))
 
         #self.G = pickle.load(open('/Users/abdallahaboelela/Documents/GitHub/'
