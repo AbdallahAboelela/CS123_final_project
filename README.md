@@ -22,7 +22,8 @@ To pull files from GCS bucket, use gsutil command
 ### Note for Kei (how to use MRJOB):
 (1) export GOOGLE_APPLICATION_CREDENTIALS=/Users/keiirizawa/Desktop/kei_api_key.json
 (1) export GOOGLE_APPLICATION_CREDENTIALS=/Users/adamalexanderoppenheimer/Desktop/new_google_api_key.json
-(2) time python3 mr_trips.py -r dataproc --num-core-instances 4 --conf-path /Users/adamalexanderoppenheimer/Desktop/CS123_final_project/dataproc_work/mrjob.conf csvs/first_hundred.csv
+(2) time python3 mr_trips.py -r dataproc --num-core-instances 4 --conf-path /Users/keiirizawa/Desktop/CS123_final_project/dataproc_work/mrjob.conf csvs/first_hundred.csv > dataproc_output.csv
+(2) time python3 mr_trips.py -r dataproc --num-core-instances 4 --conf-path /Users/adamalexanderoppenheimer/Desktop/CS123_final_project/dataproc_work/mrjob.conf csvs/first_hundred.csv > dataproc_output.csv
 
 
     - sudo pip3 install --upgrade pip
