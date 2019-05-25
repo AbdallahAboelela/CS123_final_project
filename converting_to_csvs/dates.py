@@ -1,6 +1,8 @@
 # Connecting to gcs bucket and getting first and last line of each
 # file
 
+# THIS CAN BE IMPROVED BY SWITCHING OUT PANDAS FOR READING FIRST AND LAST LINES
+
 import os
 import pandas as pd
 import sys
@@ -42,12 +44,12 @@ if __name__ == "__main__":
         writer = csv.writer(csvfile, delimiter=',')
         writer.writerow(['file_num', 'first_trip_dt', 'last_trip_dt'])
         
-        while num < 2:
+        while num < 800:
             file_name, first_trip_dt, last_trip_dt = get_dates(num)
 
             writer.writerow([num, first_trip_dt, last_trip_dt])
 
-            os.system("rm " + file_name)
+            os.system("rm ./" + file_name)
 
             num += 1
 
