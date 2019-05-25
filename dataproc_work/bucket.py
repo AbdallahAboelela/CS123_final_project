@@ -13,7 +13,15 @@ def upload_blob(bucket_name, source_file_name, destination_blob_name):
         destination_blob_name))
 
 bucket_name = 'pickle-file'
-source_file_name = 'G_adj.p'
-destination_blob_name = 'G_adj_2.p'
+source_file_name_1 = 'G_adj.p'
+source_file_name_2 = 'G_edges_proj.p'
 
-upload_blob(bucket_name, source_file_name, destination_blob_name)
+upload_blob(bucket_name, source_file_name_1, destination_blob_name)
+upload_blob(bucket_name, source_file_name_2, destination_blob_name)
+
+
+
+
+
+
+
