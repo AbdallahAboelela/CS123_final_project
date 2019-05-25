@@ -8,6 +8,7 @@
 # { time python3 mr_trips.py duper_short.csv > test_write.csv ; } 2> time.txt
 
 from mrjob.job import MRJob
+import pandas as pd
 import pickle
 from datetime import datetime
 import networkx as nx
@@ -25,7 +26,7 @@ class MRNodeTime(MRJob):
         
         G_adj_path = 'G_adj.p'
         G_edges_proj = 'G_edges_proj.p'
-        dates = pd.read_csv('date_range.csv')
+        dates = pd.read_csv('mr_filter_dates.csv')
         
         self.G = pickle.load(open(G_adj_path, 'rb'))
         self.edges_proj = pickle.load(open(G_edges_proj, 'rb'))
@@ -61,7 +62,7 @@ class MRNodeTime(MRJob):
                     actual_tot_time = (d_dt - p_dt).seconds / 60
 
                     for nodes in paths:
-                        yield 'y{}, {}, {}'.format(p_dt.year, min(nodes), max_nodes), actual_tot_time / ideal_tot_time
+                        yield 'y{}, {}, {}, {}'.format(p_dt.year, min(nodes), max_nodes, util.get_time_of_day(p_dt)), actual_tot_time / ideal_tot_time
 
             except:
                 pass

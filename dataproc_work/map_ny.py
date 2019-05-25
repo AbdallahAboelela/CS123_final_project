@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 NODE_RE = re.compile('[0-9]{5,}')
 TIME_RE = re.compile('[0-9]\.[0-9]{1,}')
 YEAR_RE = re.compile('y[0-9]{4}')
+DAY_RE = re.compile('[a-z]{3}')
 
 def get_nodes(g_fname):
     G = pickle.load(open(g_fname, "rb"))
@@ -21,29 +22,33 @@ def get_n_and_t(row):
     year = YEAR_RE.search(row).group()[1:]
     n1, n2 = NODE_RE.findall(row)
     time = TIME_RE.search(row).group()
+    tod = DAY_RE.search(row).group()
 
-    return int(n1), int(n2), float(time)
+    return year, tod, int(n1), int(n2), float(time)
 
 def get_formatted_edges(res_fname):
     edges = pd.read_csv(res_fname, header = None)
 
+    tods = []
     years = []
     n1s = []
     n2s = []
     times = []
 
     for row in edges.iterrows():
-        year, n1, n2, time = get_n_and_t(str(row))
+        year, tod, n1, n2, time = get_n_and_t(str(row))
 
         years.append(year)
         n1s.append(n1)
         n2s.append(n2)
         times.append(time)
+        tods.append(tod)
 
-    edges['year']
+    edges['year'] = years
     edges['n1'] = n1s
     edges['n2'] = n2s
     edges['time_spent'] = times
+    edges['tod'] = tods
 
     return edges.iloc[:, 1:]
 
@@ -51,7 +56,7 @@ def map(year, nodes, edges):
     edges = edges[edges['year'] == year]
     
     for _, row in edges.iterrows():
-        n1, n2, time_spent = row
+        _, n1, n2, time_spent, _ = row
 
         lat1, lon1 = nodes.loc[n1]
         lat2, lon2 = nodes.loc[n2]
@@ -65,13 +70,15 @@ def map(year, nodes, edges):
     plt.savefig(year + '_traffic.png', bbox_inches='tight')
     plt.clf
 
-if __name__ == "__main__":
-    res_fname = sys.argv[1]
-    g_fname = sys.argv[2]
 
-    nodes = get_nodes(g_fname)
-    edges = get_formatted_edges(res_fname)
 
-    for year in years:
-        map(year, nodes, edges)
+
+
+
+
+
+
+
+    
+
 

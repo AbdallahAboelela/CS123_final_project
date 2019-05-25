@@ -24,3 +24,17 @@ def get_path_time(G, edges_proj, curr_loc, dest_loc):
            times.append(float(time.iloc[0]))
 
     return pairs, times
+
+
+def get_time_of_day(dt_obj):
+    if dt_obj.hour >= 6 and dt_obj.hour < 12:
+        return "mor"
+    
+    elif dt_obj.hour >= 12 and dt_obj.hour < 18:
+        return "aft"
+
+    elif dt_obj.hour >= 18 and dt_obj.hour < 24:
+        return "eve"
+    
+    else:
+        return "nit"
