@@ -1,6 +1,6 @@
 import extract_csv
 import os
-import map_ny
+#import map_ny
 import sys
 import csv
 
@@ -25,6 +25,6 @@ def run(file, date1, date2):
 
 if __name__ == "__main__":
     fname = 'file_filter.csv'
-    date1 = sys.argv[1]
-    date2 = sys.argv[2]
+    #date1 = sys.argv[1]
+    #date2 = sys.argv[2]
     run(fname, '01-01', '01-05')
