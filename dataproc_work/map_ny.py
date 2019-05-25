@@ -75,19 +75,3 @@ if __name__ == "__main__":
     for year in years:
         map(year, nodes, edges)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
-

@@ -22,10 +22,15 @@ class MRNodeTime(MRJob):
         #G_adj_path = '/home/adam_a_oppenheimer/G_adj.p' #os.path.abspath('G_adj.p')
         #G_adj_path = '/Users/adamalexanderoppenheimer/Desktop/CS123_final_project/dataproc_work/G_adj.p'
         #G_adj_path = '/Users/keiirizawa/Desktop/CS123_final_project/dataproc_work/G_adj.p'
+        
         G_adj_path = 'G_adj.p'
         G_edges_proj = 'G_edges_proj.p'
+        dates = pd.read_csv('date_range.csv')
+        
         self.G = pickle.load(open(G_adj_path, 'rb'))
         self.edges_proj = pickle.load(open(G_edges_proj, 'rb'))
+        self.start = datetime.strptime(dates.iloc[0, 0], '%Y-%m-%d')
+        self.end = datetime.strptime(dates.iloc[0, 1], '%Y-%m-%d')
 
         #self.G = pickle.load(open('/Users/abdallahaboelela/Documents/GitHub/'
         #    'CS123_final_project/dataproc_work/G_adj.p', 'rb'))
@@ -47,24 +52,25 @@ class MRNodeTime(MRJob):
                 d_dt = datetime.strptime(l[1], '%Y-%m-%d %H:%M:%S')
                 p_dt = datetime.strptime(l[12], '%Y-%m-%d %H:%M:%S')
 
-                paths, times = util.get_path_time(self.G, self.edges_proj, (p_lat, p_long), (d_lat, d_long))
-                #formerly boundaries.get_path_time
+                if self.start <= p_dt.replace(year=2019) <= self.end:
 
-                ideal_tot_time = sum(times)
-                actual_tot_time = (d_dt - p_dt).seconds / 60
+                    paths, times = util.get_path_time(self.G, self.edges_proj, (p_lat, p_long), (d_lat, d_long))
+                    #formerly boundaries.get_path_time
 
-                for nodes in paths:
-                    yield str((min(nodes), max(nodes))), actual_tot_time / ideal_tot_time
-                    # This line needs to be changed to a proportion instead of time measure
-                    # We want delay not just streets that are driven on a lot
+                    ideal_tot_time = sum(times)
+                    actual_tot_time = (d_dt - p_dt).seconds / 60
+
+                    for nodes in paths:
+                        yield 'y{}, {}, {}'.format(p_dt.year, min(nodes), max_nodes), actual_tot_time / ideal_tot_time
+
             except:
                 pass
 
-    def combiner(self, path, times):
-        yield path, sum(times)
+    def combiner(self, path_year, times):
+        yield path_year, sum(times)
 
-    def reducer(self, path, times):
-        yield path, round(sum(times), 3)
+    def reducer(self, path_year, times):
+        yield path_year, round(sum(times), 3)
 
 
 if __name__ == '__main__':
