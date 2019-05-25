@@ -14,7 +14,8 @@ def extract_files(file, date1, date2):
     df = pd.read_csv(file, parse_dates=['first_trip_dt', 'last_trip_dt'], date_parser=date_parse)
 
     for index, row in df.iterrows():
-        if date1 >= row['first_trip_dt'] or date2 <= row['last_trip_dt']:
+        if (row['first_trip_dt'] <= date1 <= row['last_trip_dt']) or\
+                (row['first_trip_dt'] <= date2 <= row['last_trip_dt']):
             full_name, _ = get_fname(row['file_num'])
             os.system('gsutil cp {} ./relevant_csvs/{}'.format(full_name, dir_name))
     
