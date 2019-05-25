@@ -65,7 +65,9 @@ class MRNodeTime(MRJob):
         #G_adj_path = '/Users/adamalexanderoppenheimer/Desktop/CS123_final_project/dataproc_work/G_adj.p'
         #G_adj_path = '/Users/keiirizawa/Desktop/CS123_final_project/dataproc_work/G_adj.p'
         G_adj_path = 'G_adj.p'
+        G_edges_proj = 'G_edges_proj.p'
         self.G = pickle.load(open(G_adj_path, 'rb'))
+        self.edges_proj = pickle.load(open(G_edges_proj, 'rb'))
 
         #self.G = pickle.load(open('/Users/abdallahaboelela/Documents/GitHub/'
         #    'CS123_final_project/dataproc_work/G_adj.p', 'rb'))

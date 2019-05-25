@@ -59,7 +59,9 @@ def construct_G_adj():
     merged_df['time'] = merged_df['length'] / merged_df['postvz_sl_x']
     merged_df.drop(['postvz_sl_x'], axis=1, inplace=True)
     G_adj = ox.save_load.gdfs_to_graph(nodes_proj, merged_df)  # we can save this and call this when need it in function 
-    pickle.dump(G_adj, open('G_adj.p', 'wb'))
+    # pickle.dump(G_adj, open('G_adj.p', 'wb'))
+
+    pickle.dump(merged_df, open('G_edges_proj.p', 'wb'))
 
 
 def get_path_time(G, curr_loc, dest_loc):
