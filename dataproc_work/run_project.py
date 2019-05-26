@@ -4,7 +4,7 @@ import os
 import sys
 import csv
 
-def run(file, date1, date2):
+def run(date1, date2):
     '''
     file = dataframe with which dates are in which files
     date1 = '01-04'
@@ -16,7 +16,7 @@ def run(file, date1, date2):
         writer = csv.writer(f, delimiter=',')
         writer.writerow([date1, date2])
 
-    extract_csv.extract_files(file, date1, date2)
+    extract_csv.extract_files(date1, date2)
 
     os.system('python3 mr_trips.py -r dataproc --num-core-instances 4'
         ' --conf-path mrjob.conf dataproc_work/relevant_csvs/{} > output.csv'.format(dir_name))
@@ -24,7 +24,6 @@ def run(file, date1, date2):
     #map_ny.map('G_adj.p', 'output.csv')
 
 if __name__ == "__main__":
-    fname = 'file_filter.csv'
-    #date1 = sys.argv[1]
-    #date2 = sys.argv[2]
-    run(fname, '01-01', '01-05')
+    date1 = sys.argv[1]
+    date2 = sys.argv[2]
+    run(date1 + ' 00:00:00', date2 + ' 00:00:00')
