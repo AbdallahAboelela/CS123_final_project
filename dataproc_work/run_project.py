@@ -16,10 +16,10 @@ def run(date1, date2):
         writer = csv.writer(f, delimiter=',')
         writer.writerow([date1, date2])
 
-    extract_csv.extract_files(date1, date2)
+    # extract_csv.extract_files(date1, date2)
 
     os.system('python3 mr_trips.py -r dataproc --num-core-instances 4'
-        ' --conf-path mrjob.conf dataproc_work/relevant_csvs/{} > output.csv'.format(dir_name))
+        ' --conf-path mrjob.conf relevant_csvs/*.csv > output.csv')
 
     #map_ny.map('G_adj.p', 'output.csv')
 
