@@ -18,6 +18,8 @@ def setup_vm():
                 sudo pip3 install networkx
                 sudo pip3 install shapely
                 sudo pip3 install mrjob
+                sudo pip3 install google-cloud-logging
+                sudo pip3 install google-cloud-storage
                 '''
     os.system(packages)
 
