@@ -26,12 +26,12 @@ class MRNodeTime(MRJob):
         
         G_adj_path = '/home/akaboelela/dataproc_work/G_adj.p'
         G_edges_proj = '/home/akaboelela/dataproc_work/G_edges_proj.p'
-        dates = pd.read_csv('/home/akaboelela/dataproc_work/mr_filter_dates.csv', header = None)
+        # dates = pd.read_csv('/home/akaboelela/dataproc_work/mr_filter_dates.csv', header = None)
         
         self.G = pickle.load(open(G_adj_path, 'rb'))
         self.edges_proj = pickle.load(open(G_edges_proj, 'rb'))
-        self.start = datetime.strptime('2020-' + dates.iloc[0, 0], '%Y-%m-%d %H:%M:%S')
-        self.end = datetime.strptime('2020-' + dates.iloc[0, 1], '%Y-%m-%d %H:%M:%S')
+        self.start = datetime.strptime('2020-01-25 00:00:00', '%Y-%m-%d %H:%M:%S')
+        self.end = datetime.strptime('2020-01-25 00:00:01', '%Y-%m-%d %H:%M:%S')
 
         #self.G = pickle.load(open('/Users/abdallahaboelela/Documents/GitHub/'
         #    'CS123_final_project/dataproc_work/G_adj.p', 'rb'))
@@ -53,7 +53,7 @@ class MRNodeTime(MRJob):
                 d_dt = datetime.strptime(l[1], '%Y-%m-%d %H:%M:%S')
                 p_dt = datetime.strptime(l[12], '%Y-%m-%d %H:%M:%S')
 
-                if self.start <= p_dt.replace(year=2020) <= self.end:
+                if self.start <= p_dt.replace(year=2020) <= self.end:               
 
                     paths, times = util.get_path_time(self.G, self.edges_proj, (p_lat, p_long), (d_lat, d_long))
                     #formerly boundaries.get_path_time
