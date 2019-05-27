@@ -53,7 +53,7 @@ class MRNodeTime(MRJob):
                 d_dt = datetime.strptime(l[1], '%Y-%m-%d %H:%M:%S')
                 p_dt = datetime.strptime(l[12], '%Y-%m-%d %H:%M:%S')
 
-                if self.start <= p_dt.replace(year=2019) <= self.end:
+                if self.start <= p_dt.replace(year=2020) <= self.end:
 
                     paths, times = util.get_path_time(self.G, self.edges_proj, (p_lat, p_long), (d_lat, d_long))
                     #formerly boundaries.get_path_time
