@@ -62,7 +62,7 @@ class MRNodeTime(MRJob):
                     actual_tot_time = (d_dt - p_dt).seconds / 60
 
                     for nodes in paths:
-                        yield 'y{}, {}, {}, {}'.format(p_dt.year, min(nodes), max_nodes, util.get_time_of_day(p_dt)), actual_tot_time / ideal_tot_time
+                        yield 'y{}, {}, {}, {}'.format(p_dt.year, min(nodes), max(nodes), util.get_time_of_day(p_dt)), actual_tot_time / ideal_tot_time
 
             except:
                 pass
