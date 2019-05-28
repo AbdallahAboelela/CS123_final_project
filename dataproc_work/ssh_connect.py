@@ -1,12 +1,12 @@
 import os
 
 def move_files():
-    os.system('scp -i ~/.ssh/google-cloud-cs123 -r ../dataproc_work kirizawa@104.154.20.36:~/')
-    os.system('scp -i ~/.ssh/google-cloud-cs123 extract_csv.py kirizawa@104.154.20.36:~/')
-    # os.system('scp -i ~/.ssh/google-cloud-cs123 ../converting_to_csvs/file_dates.csv kirizawa@104.154.20.36:~/')
+    os.system('scp -i ~/.ssh/google-cloud-cs123 -r ../dataproc_work kirizawa@35.232.80.104:~/')
+    os.system('scp -i ~/.ssh/google-cloud-cs123 extract_csv.py kirizawa@35.232.80.104:~/')
+    # os.system('scp -i ~/.ssh/google-cloud-cs123 ../converting_to_csvs/file_dates.csv kirizawa@35.232.80.104:~/')
 
 def ssh():
-    os.system('ssh -i ~/.ssh/google-cloud-cs123 kirizawa@104.154.20.36')
+    os.system('ssh -i ~/.ssh/google-cloud-cs123 kirizawa@35.232.80.104')
 
 def setup_vm():
     packages =  '''
