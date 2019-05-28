@@ -5,7 +5,7 @@ import pandas as pd
 import pickle, re, sys, osmnx as ox
 import matplotlib.pyplot as plt
 
-NODE_RE = re.compile('[0-9]{5,}')
+NODE_RE = re.compile('[0-9]{6,}')
 TIME_RE = re.compile('[0-9]\.[0-9]{1,}')
 YEAR_RE = re.compile('y[0-9]{4}')
 DAY_RE = re.compile('[a-z]{3}')
@@ -18,13 +18,13 @@ def get_nodes(g_fname):
 
     return nodes
 
-def get_n_and_t(row):
+def get_regex(row):
     year = YEAR_RE.search(row).group()[1:]
     n1, n2 = NODE_RE.findall(row)
     time = TIME_RE.search(row).group()
     tod = DAY_RE.search(row).group()
 
-    return year, tod, int(n1), int(n2), float(time)
+    return int(year), str(tod), int(n1), int(n2), float(time)
 
 def get_formatted_edges(res_fname):
     edges = pd.read_csv(res_fname, header = None)
@@ -36,7 +36,7 @@ def get_formatted_edges(res_fname):
     times = []
 
     for row in edges.iterrows():
-        year, tod, n1, n2, time = get_n_and_t(str(row))
+        year, tod, n1, n2, time = get_regex(str(row))
 
         years.append(year)
         n1s.append(n1)
@@ -52,10 +52,11 @@ def get_formatted_edges(res_fname):
 
     return edges.iloc[:, 1:]
 
-def map(year, nodes, edges):
-    edges = edges[edges['year'] == year]
+def map(year, tod, nodes, edges):
+    filtered = edges[edges['year'] == year]
+    filtered = filtered[filtered['tod'] == tod]
     
-    for _, row in edges.iterrows():
+    for _, row in filtered.iterrows():
         _, n1, n2, time_spent, _ = row
 
         lat1, lon1 = nodes.loc[n1]
@@ -64,11 +65,19 @@ def map(year, nodes, edges):
         plt.plot([lat1, lat2], [lon1, lon2], 'r', linewidth = 1, 
             alpha = 0.05 * time_spent)
 
-    fig.axes.get_xaxis().set_visible(False)
-    fig.axes.get_yaxis().set_visible(False)
+    plt.axis('off')
 
-    plt.savefig(year + '_traffic.png', bbox_inches='tight')
-    plt.clf
+    plt.savefig('{}_{}_traffic.png'.format(year, tod), bbox_inches='tight')
+    plt.clf()
+
+if __name__ == "__main__":
+    tods = ['mor', 'aft', 'eve', 'nit']
+    nodes = get_nodes('G_adj.p')
+    edges = get_formatted_edges(sys.argv[1])
+    for year in range(2009, 2017):
+        for tod in tods:
+            map(year, tod, nodes, edges)
+
 
 
 
