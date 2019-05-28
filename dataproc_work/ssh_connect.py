@@ -1,12 +1,22 @@
 import os
 
+def get_info():
+    #username = 'kirizawa'
+    username = 'adam_a_oppenheimer'
+    ip = '35.232.80.104'
+    login = username + '@' + ip
+    return login
+
 def move_files():
-    os.system('scp -i ~/.ssh/google-cloud-cs123 -r ../dataproc_work kirizawa@35.232.80.104:~/')
-    os.system('scp -i ~/.ssh/google-cloud-cs123 extract_csv.py kirizawa@35.232.80.104:~/')
-    # os.system('scp -i ~/.ssh/google-cloud-cs123 ../converting_to_csvs/file_dates.csv kirizawa@35.232.80.104:~/')
+    login = get_info()
+
+    os.system('scp -i ~/.ssh/google-cloud-cs123 -r ../dataproc_work ' + login + ':~/')
+    os.system('scp -i ~/.ssh/google-cloud-cs123 extract_csv.py ' + login + ':~/')
+    # os.system('scp -i ~/.ssh/google-cloud-cs123 ../converting_to_csvs/file_dates.csv ' + login + ':~/')
 
 def ssh():
-    os.system('ssh -i ~/.ssh/google-cloud-cs123 kirizawa@35.232.80.104')
+    login = get_info()
+    os.system('ssh -i ~/.ssh/google-cloud-cs123 ' + login)
 
 def setup_vm():
     packages =  '''
@@ -27,4 +37,5 @@ def run_code():
     os.system('time python3 dataproc_work/mr_trips.py csvs/first_hundred.csv > output.txt')
 
 def save_output():
-    os.system('scp -i ~/.ssh/google-cloud-cs123 adam_a_oppenheimer@104.154.20.36:~/output.txt ./')
+    login = get_info()
+    os.system('scp -i ~/.ssh/google-cloud-cs123 ' + login + ':~/output.txt ./')
