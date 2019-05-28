@@ -3,7 +3,7 @@ import os
 def get_info():
     #username = 'kirizawa'
     username = 'adam_a_oppenheimer'
-    ip = '35.232.80.104'
+    ip = '35.238.27.213'
     login = username + '@' + ip
     return login
 
@@ -11,8 +11,11 @@ def move_files():
     login = get_info()
 
     os.system('scp -i ~/.ssh/google-cloud-cs123 -r ../dataproc_work ' + login + ':~/')
-    os.system('scp -i ~/.ssh/google-cloud-cs123 extract_csv.py ' + login + ':~/')
     # os.system('scp -i ~/.ssh/google-cloud-cs123 ../converting_to_csvs/file_dates.csv ' + login + ':~/')
+
+def move_extract_csv():
+    login = get_info()
+    os.system('scp -i ~/.ssh/google-cloud-cs123 extract_csv.py ' + login + ':~/')
 
 def ssh():
     login = get_info()

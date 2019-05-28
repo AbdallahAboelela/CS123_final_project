@@ -6,22 +6,24 @@ import gcsfs
 def check_dates(csv, date1, date2):
     first = csv.iloc[0]
     last = csv.iloc[csv.shape[0] - 1]
-    if not (date1 < first['pickup_datetime'] < date2) and not (date1 < last['pickup_datetime'] < date2):
+    if not (date1 <= first['pickup_datetime'].replace(year=2020) <= date2)\
+        and not (date1 <= last['pickup_datetime'].replace(year=2020) <= date2):
         return False
-    elif date1 < first['pickup_datetime'] and last['pickup_datetime'] < date2:
+    elif date1 <= first['pickup_datetime'].replace(year=2020)\
+            and last['pickup_datetime'].replace(year=2020) <= date2:
         return csv
-    elif date1 < first['pickup_datetime']:
-        i = csv.shape[0]
-        while not last['pickup_datetime'] < date2:
-            i -= 1
-            last = csv.iloc[i]
-        return csv[:i + 1, :]
-    elif last['pickup_datetime'] < date2:
-        i = 0
-        while not first['pickup_datetime'] > date1:
-            i += 1
-            first = csv.iloc[i]
-        return csv[i:, :]
+    else:
+        i = csv.shape[0] - 1
+        j = 0
+        if date1 <= first['pickup_datetime'].replace(year=2020):
+            while not last['pickup_datetime'].replace(year=2020) <= date2:
+                i -= 1
+                last = csv.iloc[i]
+        if last['pickup_datetime'].replace(year=2020) <= date2:
+            while not first['pickup_datetime'].replace(year=2020) >= date1:
+                j += 1
+                first = csv.iloc[j]
+        return csv.iloc[j:i + 1, :]
             
 
 if __name__ == "__main__":
