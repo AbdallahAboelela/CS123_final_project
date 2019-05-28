@@ -24,14 +24,14 @@ class MRNodeTime(MRJob):
         #G_adj_path = '/Users/adamalexanderoppenheimer/Desktop/CS123_final_project/dataproc_work/G_adj.p'
         #G_adj_path = '/Users/keiirizawa/Desktop/CS123_final_project/dataproc_work/G_adj.p'
         
-        G_adj_path = '/home/akaboelela/dataproc_work/G_adj.p'
-        G_edges_proj = '/home/akaboelela/dataproc_work/G_edges_proj.p'
-        # dates = pd.read_csv('/home/akaboelela/dataproc_work/mr_filter_dates.csv', header = None)
+        G_adj_path = 'G_adj.p'
+        G_edges_proj = 'G_edges_proj.p'
+        dates = pd.read_csv('mr_filter_dates.csv', header = None)
         
         self.G = pickle.load(open(G_adj_path, 'rb'))
         self.edges_proj = pickle.load(open(G_edges_proj, 'rb'))
-        self.start = datetime.strptime('2020-01-25 00:00:00', '%Y-%m-%d %H:%M:%S')
-        self.end = datetime.strptime('2020-01-25 00:00:01', '%Y-%m-%d %H:%M:%S')
+        self.start = datetime.strptime('2020-' + dates.iloc[0, 0], '%Y-%m-%d %H:%M:%S')
+        self.end = datetime.strptime('2020-' + dates.iloc[0, 1], '%Y-%m-%d %H:%M:%S')
 
         #self.G = pickle.load(open('/Users/abdallahaboelela/Documents/GitHub/'
         #    'CS123_final_project/dataproc_work/G_adj.p', 'rb'))
