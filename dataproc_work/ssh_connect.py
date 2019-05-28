@@ -17,6 +17,14 @@ def move_extract_csv():
     login = get_info()
     os.system('scp -i ~/.ssh/google-cloud-cs123 extract_csv.py ' + login + ':~/')
 
+def move_mr_trips():
+    login = get_info()
+    os.system('scp -i ~/.ssh/google-cloud-cs123 mr_trips.py ' + login + ':~/')
+
+def move_run_project():
+    login = get_info()
+    os.system('scp -i ~/.ssh/google-cloud-cs123 run_project.py ' + login + ':~/')
+
 def ssh():
     login = get_info()
     os.system('ssh -i ~/.ssh/google-cloud-cs123 ' + login)

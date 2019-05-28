@@ -14,7 +14,7 @@ from datetime import datetime
 import networkx as nx
 import osmnx_code
 import util
-
+import sys
 
 class MRNodeTime(MRJob):
 
@@ -53,16 +53,16 @@ class MRNodeTime(MRJob):
                 d_dt = datetime.strptime(l[1], '%Y-%m-%d %H:%M:%S')
                 p_dt = datetime.strptime(l[12], '%Y-%m-%d %H:%M:%S')
 
-                if self.start <= p_dt.replace(year=2020) <= self.end:               
+                #if self.start <= p_dt.replace(year=2020) <= self.end:               
 
-                    paths, times = util.get_path_time(self.G, self.edges_proj, (p_lat, p_long), (d_lat, d_long))
-                    #formerly boundaries.get_path_time
+                paths, times = util.get_path_time(self.G, self.edges_proj, (p_lat, p_long), (d_lat, d_long))
+                #formerly boundaries.get_path_time
 
-                    ideal_tot_time = sum(times)
-                    actual_tot_time = (d_dt - p_dt).seconds / 60
+                ideal_tot_time = sum(times)
+                actual_tot_time = (d_dt - p_dt).seconds / 60
 
-                    for nodes in paths:
-                        yield 'y{}, {}, {}, {}'.format(p_dt.year, min(nodes), max(nodes), util.get_time_of_day(p_dt)), actual_tot_time / ideal_tot_time
+                for nodes in paths:
+                    yield 'y{}, {}, {}, {}'.format(p_dt.year, min(nodes), max(nodes), util.get_time_of_day(p_dt)), actual_tot_time / ideal_tot_time
 
             except:
                 pass

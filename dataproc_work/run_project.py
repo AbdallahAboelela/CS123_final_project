@@ -18,6 +18,9 @@ def run(date1, date2):
 
     extract_csv.extract_files(date1, date2)
 
+    #Use this to run locally:
+    #os.system('python3 mr_trips.py -r local --conf-path mrjob.conf relevant_csvs/*.csv > output.csv')
+
     os.system('python3 mr_trips.py -r dataproc --num-core-instances 4'
         ' --conf-path mrjob.conf relevant_csvs/*.csv > output.csv')
 
