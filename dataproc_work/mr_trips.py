@@ -8,6 +8,7 @@
 # { time python3 mr_trips.py duper_short.csv > test_write.csv ; } 2> time.txt
 
 from mrjob.job import MRJob
+import numpy as np
 import pandas as pd
 import pickle
 from datetime import datetime
@@ -68,10 +69,16 @@ class MRNodeTime(MRJob):
                 pass
 
     def combiner(self, path_year, times):
-        yield path_year, sum(times)
+        time_list = list(times)
+        yield path_year, (sum(time_list), len(time_list))
 
     def reducer(self, path_year, times):
-        yield path_year, round(sum(times), 3)
+        sum_times = 0
+        len_times = 0
+        for time, len_time in times:
+            sum_times += time
+            len_times += len_time
+        yield path_year, round(sum_times / len_times, 3)
 
 
 if __name__ == '__main__':
