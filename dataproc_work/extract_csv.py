@@ -31,9 +31,9 @@ def extract_files(date1, date2):
             full_name, str_num = get_fname(row['file_num'])
 
             os.system('gsutil cp {} relevant_csvs/'.format(full_name))
-            # df = pd.read_csv('relevant_csvs/' + full_name[len(GET_REPO):])
-            # df = df.sample(frac=0.01)
-            # df.to_csv('relevant_csvs/' + full_name[len(GET_REPO):])
+            df = pd.read_csv('relevant_csvs/' + full_name[len(GET_REPO):])
+            df = df.sample(frac=0.01)
+            df.to_csv('relevant_csvs/' + full_name[len(GET_REPO):])
 
 
 def get_fname(num):
