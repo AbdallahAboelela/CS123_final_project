@@ -41,59 +41,62 @@ def extract_files(date1, date2):
             df.to_csv('relevant_csvs/' + full_name[len(GET_REPO):], index=False)
 
 def check_dates_recursion(csv, date1, date2, start, prev_start, end, prev_end):
-    first = csv.iloc[start]
-    last = csv.iloc[end]
+    first_date = csv.iloc[start]['pickup_datetime'].replace(year=2020)
+    last_date = csv.iloc[end]['pickup_datetime'].replace(year=2020)
+    above_first_date = csv.iloc[start - 1]['pickup_datetime'].replace(year=2020)
+    below_last_date = csv.iloc[end + 1]['pickup_datetime'].replace(year=2020)
     middle = (start + end) // 2
+    middle_date = csv.iloc[middle]['pickup_datetime'].replace(year=2020)
+
+    valid_first = (date1 <= first_date <= date2)
+    valid_last = (date1 <= last_date <= date2)
+    valid_above_first = (date1 <= above_first_date <= date2)
+    valid_below_last = (date1 <= below_last_date <= date2)
     
-    if (date1 <= first['pickup_datetime'].replace(year=2020) <= date2) and\
-            (date1 <= last['pickup_datetime'].replace(year=2020) <= date2) and not\
-            (date1 <= csv.iloc[start - 1]['pickup_datetime'].replace(year=2020) <= date2) and not\
-            (date1 <= csv.iloc[end + 1]['pickup_datetime'].replace(year=2020) <= date2):
+    if valid_first and valid_last and not\
+            valid_above_first and not valid_below_last:
         return csv.iloc[start:end + 1]
         
-    if date2 <= csv.iloc[middle]['pickup_datetime'].replace(year=2020):
+    if date2 <= middle_date:
         return check_dates_recursion(csv, date1, date2, start, start, middle, middle)
         
-    elif date1 >= csv.iloc[middle]['pickup_datetime'].replace(year=2020):
+    elif date1 >= middle_date:
         return check_dates_recursion(csv, date1, date2, middle, middle, end, end)
     
-    elif (date1 <= first['pickup_datetime'].replace(year=2020) <= date2) and not\
-            (date1 <= csv.iloc[start - 1]['pickup_datetime'].replace(year=2020) <= date2) and\
-            (date1 <= last['pickup_datetime'].replace(year=2020) <= date2):
-            #First correct, last too small
-            new_end = (end + prev_end) // 2
-            return check_dates_recursion(csv, date1, date2, start, start, new_end, prev_end)
+    elif valid_first and valid_last and not\
+            valid_above_first and valid_below_last:
+        #First correct, last too small
+        new_end = (end + prev_end) // 2
+        return check_dates_recursion(csv, date1, date2, start, start, new_end, prev_end)
 
-    elif (date1 <= first['pickup_datetime'].replace(year=2020) <= date2) and not\
-            (date1 <= csv.iloc[start - 1]['pickup_datetime'].replace(year=2020) <= date2) and not\
-            (date1 <= last['pickup_datetime'].replace(year=2020) <= date2):
-            #First correct, last too large
-            new_end = (end + middle) // 2
-            return check_dates_recursion(csv, date1, date2, start, start, new_end, end)
+    elif valid_first and not valid_last and not\
+            valid_above_first:
+        #First correct, last too large
+        new_end = (end + middle) // 2
+        return check_dates_recursion(csv, date1, date2, start, start, new_end, end)
 
-    elif (date1 <= last['pickup_datetime'].replace(year=2020) <= date2) and not\
-            (date1 <= csv.iloc[end + 1]['pickup_datetime'].replace(year=2020) <= date2) and\
-            (date1 <= first['pickup_datetime'].replace(year=2020) <= date2):
-            #Last correct, first too large
-            new_start = (start + prev_start) // 2
-            return check_dates_recursion(csv, date1, date2, new_start, prev_start, end, end)
+    elif valid_first and valid_last and not\
+            valid_below_last:
+        #Last correct, first too large
+        new_start = (start + prev_start) // 2
+        return check_dates_recursion(csv, date1, date2, new_start, prev_start, end, end)
 
-    elif (date1 <= last['pickup_datetime'].replace(year=2020) <= date2) and not\
-            (date1 <= csv.iloc[end + 1]['pickup_datetime'].replace(year=2020) <= date2) and not\
-            (date1 <= first['pickup_datetime'].replace(year=2020) <= date2):
-            #Last correct, first too small
-            new_start = (start + middle) // 2
-            return check_dates_recursion(csv, date1, date2, new_start, prev_start, end, end)
+    elif not valid_first and valid_last and not\
+            valid_below_last:
+        #Last correct, first too small
+        new_start = (start + middle) // 2
+        return check_dates_recursion(csv, date1, date2, new_start, start, end, end)
             
-    elif (date1 <= first['pickup_datetime'].replace(year=2020) <= date2) and\
-        (date1 <= last['pickup_datetime'].replace(year=2020) <= date2):
+    elif valid_first and valid_last:
+        #First too large, last too small
         new_start = (start + prev_start) // 2
         new_end = (end + prev_end) // 2
         return check_dates_recursion(csv, date1, date2, new_start, prev_start, new_end, prev_end)
     else:
+        #First too small, last too large
         new_start = (start + middle) // 2
         new_end = (end + middle) // 2
-        return check_dates_recursion(csv, date1, date2, new_start, prev_start, new_end, prev_end)
+        return check_dates_recursion(csv, date1, date2, new_start, start, new_end, end)
 
 
 def check_dates(csv, date1, date2):
