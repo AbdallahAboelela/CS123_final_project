@@ -3,7 +3,7 @@ import os
 def get_info():
     #username = 'kirizawa'
     username = 'adam_a_oppenheimer'
-    ip = '35.224.130.72'
+    ip = '34.66.215.241'
     login = username + '@' + ip
     return login
 

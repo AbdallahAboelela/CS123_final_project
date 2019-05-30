@@ -57,20 +57,24 @@ class MRNodeTime(MRJob):
                 #if self.start <= p_dt.replace(year=2020) <= self.end:               
 
                 paths, times = util.get_path_time(self.G, self.edges_proj, (p_lat, p_long), (d_lat, d_long))
-                #formerly boundaries.get_path_time
+                if paths:
+                    #formerly boundaries.get_path_time
 
-                ideal_tot_time = sum(times)
-                actual_tot_time = (d_dt - p_dt).seconds / 60
+                    ideal_tot_time = sum(times)
+                    actual_tot_time = (d_dt - p_dt).seconds / 60
 
-                for nodes in paths:
-                    yield 'y{}, {}, {}, {}'.format(p_dt.year, min(nodes), max(nodes), util.get_time_of_day(p_dt)), actual_tot_time / ideal_tot_time
-
+                    for nodes in paths:
+                        yield 'y{}, {}, {}, {}'.format(p_dt.year, min(nodes), max(nodes), util.get_time_of_day(p_dt)), actual_tot_time / ideal_tot_time
             except:
                 pass
 
     def combiner(self, path_year, times):
-        time_list = list(times)
-        yield path_year, (sum(time_list), len(time_list))
+        sum_time = 0
+        len_time = 0
+        for time in times:
+            sum_time += time
+            len_time += 1
+        yield path_year, (sum_time, len_time)
 
     def reducer(self, path_year, times):
         sum_times = 0

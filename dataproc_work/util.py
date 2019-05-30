@@ -2,10 +2,12 @@ import osmnx_code
 import networkx as nx
 
 def get_path_time(G, edges_proj, curr_loc, dest_loc):
-    orig_node = osmnx_code.get_nearest_node(G, curr_loc, method='euclidean')
-    target_node = osmnx_code.get_nearest_node(G, dest_loc, method='euclidean')
+    orig_node, orig_dist = osmnx_code.get_nearest_node(G, curr_loc, method='euclidean', return_dist=True)
+    target_node, target_dist = osmnx_code.get_nearest_node(G, dest_loc, method='euclidean', return_dist=True)
     route = nx.shortest_path(G, source=orig_node, target=target_node, weight='time')
-    
+
+    if orig_dist > 200 or target_dist > 200:
+        return False, False
     #nodes_proj, edges_proj = ox.graph_to_gdfs(G, nodes=True, edges=True)
 
     pairs = []
