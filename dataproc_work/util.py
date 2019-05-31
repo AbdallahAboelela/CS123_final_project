@@ -1,3 +1,7 @@
+'''
+Purpose: Util file for MapReduce (mr)
+
+'''
 import osmnx_code
 import networkx as nx
 

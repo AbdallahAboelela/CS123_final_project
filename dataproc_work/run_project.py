@@ -4,13 +4,12 @@ import os
 import sys
 import csv
 
-def run(date1, date2):
+def run(date1, date2, filename):
     '''
     file = dataframe with which dates are in which files
     date1 = '01-04'
     date2 = '01-10'
     '''
-    dir_name = str(date1).strip(' ') + '_' + str(date2).strip(' ')
 
     with open('mr_filter_dates.csv', 'w') as f:
         writer = csv.writer(f, delimiter=',')
@@ -21,14 +20,18 @@ def run(date1, date2):
     #Use this to run locally:
     #os.system('python3 mr_trips.py -r local --conf-path mrjob.conf relevant_csvs/*.csv > output.csv')
 
-    os.system('python3 mr_trips.py -r dataproc --num-core-instances 4'
-        ' --conf-path mrjob.conf relevant_csvs/*.csv > output.csv')
+    run_code = 'python3 mr_trips.py -r dataproc --num-core-instances 4' +\
+        ' --conf-path mrjob.conf relevant_csvs/*.csv > ./output/' + filename + '.csv'
+    os.system(run_code)
 
     # os.system('python3 mr_trips.py relevant_csvs/*.csv > output.csv')
 
     #map_ny.map('G_adj.p', 'output.csv')
 
 if __name__ == "__main__":
-    date1 = sys.argv[1]
-    date2 = sys.argv[2]
-    run(date1 + ' 00:00:00', date2 + ' 00:05:00')
+    dates_to_run_csv = sys.argv[1]
+    with open(dates_to_run_csv, newline='') as csvfile:
+        csv_reader = csv.reader(csvfile, delimiter=',', quotechar='"')
+        for row in csv_reader:
+            date1, date2, filename = row
+            run(str(date1) + ' 00:00:00', str(date2) + ' 00:00:00', str(filename))

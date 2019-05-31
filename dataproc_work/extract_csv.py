@@ -37,7 +37,7 @@ def extract_files(date1, date2):
             if df is None:
                 print('DF is None')
             df = check_dates_recursion(df, date1, date2, 0, 0, df.shape[0] - 1, df.shape[0] - 1)#check_dates(df, date1, date2)
-            df = df.sample(frac=0.0001)
+            df = df.sample(frac=0.01)
             df.to_csv('relevant_csvs/' + full_name[len(GET_REPO):], index=False)
 
 def check_dates_recursion(csv, date1, date2, start, prev_start, end, prev_end):

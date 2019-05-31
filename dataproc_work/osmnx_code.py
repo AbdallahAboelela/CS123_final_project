@@ -1,3 +1,11 @@
+'''
+Purpose: Copied relevant OSMNX function so that we can use them while running 
+    MapReduce. This helped us overcome issue of importing OSMNX through 
+    MapReduce. 
+
+    The following code is copied from:
+    https://github.com/gboeing/osmnx/blob/master/osmnx/utils.py
+'''
 import time
 import numpy as np
 import pandas as pd
