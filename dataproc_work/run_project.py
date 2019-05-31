@@ -34,4 +34,4 @@ if __name__ == "__main__":
         csv_reader = csv.reader(csvfile, delimiter=',', quotechar='"')
         for row in csv_reader:
             date1, date2, filename = row
-            run(str(date1) + ' 00:00:00', str(date2) + ' 00:00:00', str(filename))
+            run(str(date1) + ' 00:00:00', str(date2) + ' 23:59:59', str(filename))
