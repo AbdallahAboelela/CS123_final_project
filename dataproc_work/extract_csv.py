@@ -56,6 +56,7 @@ def extract_files(date1, date2):
 
 def check_dates_recursion(csv, date1, date2, start, prev_start, end, prev_end):
     '''
+    
     '''
     first_date = csv.iloc[start]['pickup_datetime'].replace(year=2020)
     last_date = csv.iloc[end]['pickup_datetime'].replace(year=2020)
@@ -172,6 +173,9 @@ def check_dates_recursion(csv, date1, date2, start, prev_start, end, prev_end):
 
 
 def check_dates(csv, date1, date2):
+    '''
+    
+    '''
     first = csv.iloc[0]
     last = csv.iloc[csv.shape[0] - 1]
     if not (date1 <= first['pickup_datetime'].replace(year=2020) <= date2)\
@@ -193,7 +197,11 @@ def check_dates(csv, date1, date2):
                 first = csv.iloc[j]
         return csv.iloc[j:i + 1, :]
 
+
 def get_fname(num):
+    '''
+    
+    '''
     n = len(str(num))
 
     str_num = (N - n) * "0" + str(num)

@@ -30,7 +30,7 @@ def get_formatted_edges(res_fname):
     edges = pd.read_csv(res_fname, header = None)
 
     tods = []
-    years = []
+    years = []e
     n1s = []
     n2s = []
     times = []
