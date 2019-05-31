@@ -1,4 +1,8 @@
-# CS123 final project
+README
+=========================== 
+
+## Libraries Used
+
 
 ## Done
 1. Adjusted osmnx to give shortest paths in terms of time.  

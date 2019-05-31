@@ -1,12 +1,22 @@
-# Map Reduce for Project KASA
-# 8 May, 2019
+'''
+Purpose: 
+    Yield key value pair using MapReduce. 
 
-# EXAMPLE COMMAND LINE RUN COMMAND TO OUTPUT INTO FILE test_write.csv
-# python3 mr_trips.py duper_short.csv > test_write.csv
+    Key: path_year = (p_dt.year, min(nodes), max(nodes), util.get_time_of_day(p_dt))
+    - p_dt.year: year of data
+    - min(nodes): smaller node_id between tuple of node_id that represent street
+    - max(nodes): bigger node_id between tuple of node_id that represent street)
+    - util.get_time_of_day(p_dt): time of day of data 
 
-# To stream time output into time.txt run
-# { time python3 mr_trips.py duper_short.csv > test_write.csv ; } 2> time.txt
+    Value: average street time
+    - average trip time: trip time from data / optimal time of trip based on 
+        shortest distance  
 
+    Note: 
+        Given a trip data, we collect the streets it goes through based on Dijkstra's 
+        algorithm. For each street (represented as tuple of node_id), we represent the 
+        traffic level as average trip time. 
+'''
 from mrjob.job import MRJob
 import numpy as np
 import pandas as pd
@@ -17,9 +27,18 @@ import osmnx_code
 import util
 import sys
 
+# EXAMPLE COMMAND LINE RUN COMMAND TO OUTPUT INTO FILE test_write.csv
+# python3 mr_trips.py duper_short.csv > test_write.csv
+
+# To stream time output into time.txt run
+# { time python3 mr_trips.py duper_short.csv > test_write.csv ; } 2> time.txt
+
 class MRNodeTime(MRJob):
 
     def mapper_init(self):
+        '''
+        Collects information necessary to run mapper for each nodes.
+        '''
         # self.G = pickle.load(open('/Users/keiirizawa/Desktop/CS123_final_project/dataproc_work/G_adj.p', 'rb'))
         #G_adj_path = '/home/adam_a_oppenheimer/G_adj.p' #os.path.abspath('G_adj.p')
         #G_adj_path = '/Users/adamalexanderoppenheimer/Desktop/CS123_final_project/dataproc_work/G_adj.p'
@@ -38,7 +57,10 @@ class MRNodeTime(MRJob):
         #    'CS123_final_project/dataproc_work/G_adj.p', 'rb'))
 
     def mapper(self, _, line):
-
+        '''
+        Given line (one trip data), yields key as (p_dt.year, min(nodes), max(nodes), 
+        util.get_time_of_day(p_dt)) and value as average street time (actual_tot_time / ideal_tot_time)
+        '''
         l = line.split(',')
         d_lat, d_long = l[2:4]
         p_lat, p_long = l[13:15]
@@ -69,6 +91,9 @@ class MRNodeTime(MRJob):
                 pass
 
     def combiner(self, path_year, times):
+        '''
+        
+        '''
         sum_time = 0
         len_time = 0
         for time in times:
@@ -77,6 +102,8 @@ class MRNodeTime(MRJob):
         yield path_year, (sum_time, len_time)
 
     def reducer(self, path_year, times):
+        '''
+        '''
         sum_times = 0
         len_times = 0
         for time, len_time in times:
