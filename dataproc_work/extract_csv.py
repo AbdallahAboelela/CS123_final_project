@@ -74,6 +74,7 @@ def check_dates_recursion(csv, date1, date2, start, prev_start, end, prev_end):
         #First correct, last too small
         new_end = (end + prev_end) // 2
         if end == new_end:
+            end += 1
             prev_end = (prev_end + csv.shape[0] - 1) // 2
         return check_dates_recursion(csv, date1, date2, start, start, new_end, prev_end)
 
@@ -82,6 +83,7 @@ def check_dates_recursion(csv, date1, date2, start, prev_start, end, prev_end):
         #First correct, last too large
         new_end = (end + middle) // 2
         if end == new_end:
+            end -= 1
             prev_end = (prev_end + csv.shape[0] - 1) // 2
         return check_dates_recursion(csv, date1, date2, start, start, new_end, end)
 
@@ -90,6 +92,7 @@ def check_dates_recursion(csv, date1, date2, start, prev_start, end, prev_end):
         #Last correct, first too large
         new_start = (start + prev_start) // 2
         if start == new_start:
+            start -= 1
             prev_start = prev_start // 2
         return check_dates_recursion(csv, date1, date2, new_start, prev_start, end, end)
 
@@ -98,6 +101,7 @@ def check_dates_recursion(csv, date1, date2, start, prev_start, end, prev_end):
         #Last correct, first too small
         new_start = (start + middle) // 2
         if start == new_start:
+            start += 1
             prev_start = prev_start // 2
         return check_dates_recursion(csv, date1, date2, new_start, start, end, end)
             
@@ -107,8 +111,10 @@ def check_dates_recursion(csv, date1, date2, start, prev_start, end, prev_end):
         new_start = (start + prev_start) // 2
         new_end = (end + prev_end) // 2
         if start == new_start:
+            start -= 1
             prev_start = prev_start // 2
         if end == new_end:
+            end += 1
             prev_end = (prev_end + csv.shape[0] - 1) // 2
         return check_dates_recursion(csv, date1, date2, new_start, prev_start, new_end, prev_end)
     else:
@@ -116,8 +122,10 @@ def check_dates_recursion(csv, date1, date2, start, prev_start, end, prev_end):
         new_start = (start + middle) // 2
         new_end = (end + middle) // 2
         if start == new_start:
+            start += 1
             prev_start = prev_start // 2
         if end == new_end:
+            end -= 1
             prev_end = (prev_end + csv.shape[0] - 1) // 2
         return check_dates_recursion(csv, date1, date2, new_start, start, new_end, end)
 
