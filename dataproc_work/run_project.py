@@ -1,3 +1,7 @@
+'''
+Purpose: 
+    Main file to run entire project.
+'''
 import extract_csv
 import os
 #import map_ny

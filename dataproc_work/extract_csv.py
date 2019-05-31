@@ -1,3 +1,7 @@
+'''
+Purpose: Given interested dates want to analyze, extract relevant csv files 
+    in google cloud bucket (csv files that include interested dates). 
+'''
 import pandas as pd
 import os
 from datetime import datetime
@@ -5,14 +9,20 @@ from datetime import datetime
 GET_REPO = "gs://kasa_nyc_taxi_data/converted_data/"
 FILE_PREFIX = "taxi_data_"
 FILE_SUFFIX = ".csv"
-N = 5
-
 FILE_NAME = './file_dates.csv'
+N = 5
 
 def extract_files(date1, date2):
     '''
-    date1 = '01-04'
-    date2 = '01-10'
+    Purpose:
+        Extract relevant csv files given interested date interval 
+        between date1 and date2.
+    Inputs:
+        date1: month and date (ex) '01-04'
+        date2: month and date (ex) '01-10'
+    Returns:
+        None. Creates directory called relevant_csvs and saves the 
+        relevant csv files into this directory. 
     '''
     date1 = datetime.strptime('2020-' + date1, '%Y-%m-%d %H:%M:%S')
     date2 = datetime.strptime('2020-' + date2, '%Y-%m-%d %H:%M:%S')
@@ -43,7 +53,10 @@ def extract_files(date1, date2):
             df = df.sample(frac=0.01)
             df.to_csv('relevant_csvs/' + full_name[len(GET_REPO):], index=False)
 
+
 def check_dates_recursion(csv, date1, date2, start, prev_start, end, prev_end):
+    '''
+    '''
     first_date = csv.iloc[start]['pickup_datetime'].replace(year=2020)
     last_date = csv.iloc[end]['pickup_datetime'].replace(year=2020)
     if start == 0:

@@ -92,7 +92,8 @@ class MRNodeTime(MRJob):
 
     def combiner(self, path_year, times):
         '''
-        
+        Given the key, sums up average times and stores number of additions 
+        made so that we can take total average during reducer stage. 
         '''
         sum_time = 0
         len_time = 0
@@ -103,6 +104,7 @@ class MRNodeTime(MRJob):
 
     def reducer(self, path_year, times):
         '''
+        Given the key, calculates the total average. 
         '''
         sum_times = 0
         len_times = 0
