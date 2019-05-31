@@ -36,7 +36,10 @@ def extract_files(date1, date2):
                 infer_datetime_format=True, parse_dates=['pickup_datetime'])
             if df is None:
                 print('DF is None')
-            df = check_dates_recursion(df, date1, date2, 0, 0, df.shape[0] - 1, df.shape[0] - 1)#check_dates(df, date1, date2)
+            try:
+                df = check_dates_recursion(df, date1, date2, 0, 0, df.shape[0] - 1, df.shape[0] - 1)#check_dates(df, date1, date2)
+            except:
+                df = check_dates(df, date1, date2)
             df = df.sample(frac=0.01)
             df.to_csv('relevant_csvs/' + full_name[len(GET_REPO):], index=False)
 
@@ -74,7 +77,7 @@ def check_dates_recursion(csv, date1, date2, start, prev_start, end, prev_end):
         #First correct, last too small
         new_end = (end + prev_end) // 2
         if end == new_end:
-            end += 1
+            new_end += 1
             prev_end = (prev_end + csv.shape[0] - 1) // 2
         return check_dates_recursion(csv, date1, date2, start, start, new_end, prev_end)
 
@@ -83,8 +86,8 @@ def check_dates_recursion(csv, date1, date2, start, prev_start, end, prev_end):
         #First correct, last too large
         new_end = (end + middle) // 2
         if end == new_end:
-            end -= 1
-            prev_end = (prev_end + csv.shape[0] - 1) // 2
+            new_end -= 1
+            end = (end + csv.shape[0] - 1) // 2
         return check_dates_recursion(csv, date1, date2, start, start, new_end, end)
 
     elif valid_first and valid_last and\
@@ -92,7 +95,7 @@ def check_dates_recursion(csv, date1, date2, start, prev_start, end, prev_end):
         #Last correct, first too large
         new_start = (start + prev_start) // 2
         if start == new_start:
-            start -= 1
+            new_start -= 1
             prev_start = prev_start // 2
         return check_dates_recursion(csv, date1, date2, new_start, prev_start, end, end)
 
@@ -101,8 +104,8 @@ def check_dates_recursion(csv, date1, date2, start, prev_start, end, prev_end):
         #Last correct, first too small
         new_start = (start + middle) // 2
         if start == new_start:
-            start += 1
-            prev_start = prev_start // 2
+            new_start += 1
+            start = start // 2
         return check_dates_recursion(csv, date1, date2, new_start, start, end, end)
             
     elif valid_first and valid_last and\
@@ -111,10 +114,10 @@ def check_dates_recursion(csv, date1, date2, start, prev_start, end, prev_end):
         new_start = (start + prev_start) // 2
         new_end = (end + prev_end) // 2
         if start == new_start:
-            start -= 1
+            new_start -= 1
             prev_start = prev_start // 2
         if end == new_end:
-            end += 1
+            new_end += 1
             prev_end = (prev_end + csv.shape[0] - 1) // 2
         return check_dates_recursion(csv, date1, date2, new_start, prev_start, new_end, prev_end)
     elif not valid_first and not valid_last and not\
@@ -123,23 +126,35 @@ def check_dates_recursion(csv, date1, date2, start, prev_start, end, prev_end):
         new_start = (start + middle) // 2
         new_end = (end + middle) // 2
         if start == new_start:
-            start += 1
-            prev_start = prev_start // 2
+            new_start += 1
+            start = start // 2
         if end == new_end:
-            end -= 1
-            prev_end = (prev_end + csv.shape[0] - 1) // 2
+            new_end -= 1
+            end = (end + csv.shape[0] - 1) // 2
         return check_dates_recursion(csv, date1, date2, new_start, start, new_end, end)
     elif not valid_first and valid_last and not\
             valid_above_first and valid_below_last:
         #First too small, last too small
         new_start = (start + middle) // 2
         new_end = (end + prev_end) // 2
+        if start == new_start:
+            new_start += 1
+            start = start // 2
+        if end == new_end:
+            new_end += 1
+            prev_end = (prev_end + csv.shape[0] - 1) // 2
         return check_dates_recursion(csv, date1, date2, new_start, start, new_end, prev_end)
     elif valid_first and not valid_last and\
             valid_above_first and not valid_below_last:
         #First too large, last too large
         new_start = (start + prev_start) // 2
         new_end = (end + middle) // 2
+        if start == new_start:
+            new_start -= 1
+            prev_start = prev_start // 2
+        if end == new_end:
+            new_end -= 1
+            end = (end + csv.shape[0] - 1) // 2
         return check_dates_recursion(csv, date1, date2, new_start, prev_start, new_end, end)
 
 

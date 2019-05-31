@@ -21,7 +21,7 @@ def run(date1, date2, filename):
     #os.system('python3 mr_trips.py -r local --conf-path mrjob.conf relevant_csvs/*.csv > output.csv')
 
     run_code = 'python3 mr_trips.py -r dataproc --num-core-instances 4' +\
-        ' --conf-path mrjob.conf relevant_csvs/*.csv > ../output/' + filename + '.csv'
+        ' --conf-path mrjob.conf relevant_csvs/*.csv > output/' + filename + '.csv'
     os.system(run_code)
 
     # os.system('python3 mr_trips.py relevant_csvs/*.csv > output.csv')
