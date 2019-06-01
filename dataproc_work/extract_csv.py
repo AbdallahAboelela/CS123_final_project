@@ -56,7 +56,8 @@ def extract_files(date1, date2):
 
 def check_dates_recursion(csv, date1, date2, start, prev_start, end, prev_end):
     '''
-    
+    Purpose:
+
     '''
     first_date = csv.iloc[start]['pickup_datetime'].replace(year=2020)
     last_date = csv.iloc[end]['pickup_datetime'].replace(year=2020)
@@ -174,7 +175,15 @@ def check_dates_recursion(csv, date1, date2, start, prev_start, end, prev_end):
 
 def check_dates(csv, date1, date2):
     '''
-    
+    Purpose:
+    	Checks the csv file and extracts the portion that contains the 
+    	relevant dates.
+    Inputs:
+    	csv: the csv file, read as a pandas dataframe
+        date1: month and date (ex) '01-04'
+        date2: month and date (ex) '01-10'
+    Returns:
+    	The relevant portion of the dataframe.   	 
     '''
     first = csv.iloc[0]
     last = csv.iloc[csv.shape[0] - 1]
@@ -200,7 +209,11 @@ def check_dates(csv, date1, date2):
 
 def get_fname(num):
     '''
-    
+   	Generates a file name based on the number assigned to it.
+   	Input:
+   		num(int): the number associated with a file
+   	Returns:
+   		The file name, and the file number.
     '''
     n = len(str(num))
 
