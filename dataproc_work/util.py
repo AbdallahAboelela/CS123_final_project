@@ -47,8 +47,8 @@ def get_path_time(G, edges_proj, curr_loc, dest_loc):
 
         try:
            times.append(float(time))
-Util file for MapReduce (mr_trip.py). 
 
+        except:
            times.append(float(time.iloc[0]))
 
     return pairs, times
