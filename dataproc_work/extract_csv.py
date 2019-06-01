@@ -1,6 +1,6 @@
 '''
-Purpose: Given interested dates want to analyze, extract relevant csv files 
-    in google cloud bucket (csv files that include interested dates). 
+Purpose: Given interested dates want to analyze, extract relevant csv files
+    in google cloud bucket (csv files that include interested dates).
 '''
 import pandas as pd
 import os
@@ -15,21 +15,21 @@ N = 5
 def extract_files(date1, date2):
     '''
     Purpose:
-        Extract relevant csv files given interested date interval 
+        Extract relevant csv files given interested date interval
         between date1 and date2.
     Inputs:
         date1: month and date (ex) '01-04'
         date2: month and date (ex) '01-10'
     Returns:
-        None. Creates directory called relevant_csvs and saves the 
-        relevant csv files into this directory. 
+        None. Creates directory called relevant_csvs and saves the
+        relevant csv files into this directory.
     '''
     date1 = datetime.strptime('2020-' + date1, '%Y-%m-%d %H:%M:%S')
     date2 = datetime.strptime('2020-' + date2, '%Y-%m-%d %H:%M:%S')
 
     dir_name = str(date1).strip(' ')[4:] + '_' + str(date2).strip(' ')[4:] #4 to skip year
     df = pd.read_csv(FILE_NAME, infer_datetime_format=True, parse_dates=['first_trip_dt', 'last_trip_dt'])
- 
+
     df.first_trip_dt = df.first_trip_dt.apply(lambda dt: dt.replace(year = 2020))
     df.last_trip_dt = df.last_trip_dt.apply(lambda dt: dt.replace(year = 2020))
     # , date_parser=date_parse)
@@ -57,7 +57,18 @@ def extract_files(date1, date2):
 def check_dates_recursion(csv, date1, date2, start, prev_start, end, prev_end):
     '''
     Purpose:
-
+        Use binary search to find block of Pandas dataframe containing dates in relevant
+        range. Assumes dates are chronological.
+    Inputs:
+        csv: Pandas dataframe containing ride information
+        date1: start date (inclusive)
+        date2: end date (inclusive)
+        start: line of dataframe to check and validate if start of relevant block
+        prev_start: last start guess above block
+        end: line of dataframe to check and validate if end of relevant block
+        prev_end: last end guess below block
+    Returns:
+        Pandas dataframe containing only dates in relevant range
     '''
     first_date = csv.iloc[start]['pickup_datetime'].replace(year=2020)
     last_date = csv.iloc[end]['pickup_datetime'].replace(year=2020)
@@ -76,17 +87,17 @@ def check_dates_recursion(csv, date1, date2, start, prev_start, end, prev_end):
     valid_last = (date1 <= last_date <= date2)
     valid_above_first = (date1 <= above_first_date <= date2)
     valid_below_last = (date1 <= below_last_date <= date2)
-    
+
     if valid_first and valid_last and not\
             valid_above_first and not valid_below_last:
         return csv.iloc[start:end + 1]
-        
+
     if date2 < middle_date:
         return check_dates_recursion(csv, date1, date2, start, prev_start, middle, middle)
-        
+
     elif date1 > middle_date:
         return check_dates_recursion(csv, date1, date2, middle, middle, end, prev_end)
-    
+
     elif valid_first and valid_last and not\
             valid_above_first and valid_below_last:
         #First correct, last too small
@@ -122,7 +133,7 @@ def check_dates_recursion(csv, date1, date2, start, prev_start, end, prev_end):
             new_start += 1
             start = start // 2
         return check_dates_recursion(csv, date1, date2, new_start, start, end, end)
-            
+
     elif valid_first and valid_last and\
             valid_above_first and valid_below_last:
         #First too large, last too small
@@ -176,14 +187,14 @@ def check_dates_recursion(csv, date1, date2, start, prev_start, end, prev_end):
 def check_dates(csv, date1, date2):
     '''
     Purpose:
-    	Checks the csv file and extracts the portion that contains the 
+    	Checks the csv file and extracts the portion that contains the
     	relevant dates.
     Inputs:
     	csv: the csv file, read as a pandas dataframe
         date1: month and date (ex) '01-04'
         date2: month and date (ex) '01-10'
     Returns:
-    	The relevant portion of the dataframe.   	 
+    	The relevant portion of the dataframe.
     '''
     first = csv.iloc[0]
     last = csv.iloc[csv.shape[0] - 1]
@@ -222,4 +233,3 @@ def get_fname(num):
     fname = GET_REPO + FILE_PREFIX + str_num + FILE_SUFFIX
 
     return fname, str_num
-
