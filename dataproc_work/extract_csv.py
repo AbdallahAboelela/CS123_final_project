@@ -50,7 +50,7 @@ def extract_files(date1, date2):
                 df = check_dates_recursion(df, date1, date2, 0, 0, df.shape[0] - 1, df.shape[0] - 1)#check_dates(df, date1, date2)
             except:
                 df = check_dates(df, date1, date2)
-            df = df.sample(frac=0.01)
+            df = df.sample(frac=0.005)
             df.to_csv('relevant_csvs/' + full_name[len(GET_REPO):], index=False)
 
 

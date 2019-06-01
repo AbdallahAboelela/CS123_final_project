@@ -33,6 +33,7 @@ def run(date1, date2, filename):
     #map_ny.map('G_adj.p', 'output.csv')
 
 if __name__ == "__main__":
+    os.system('mkdir output')
     dates_to_run_csv = sys.argv[1]
     with open(dates_to_run_csv, newline='') as csvfile:
         csv_reader = csv.reader(csvfile, delimiter=',', quotechar='"')
