@@ -1,4 +1,5 @@
 What we have left to do?
+
 - We have our code ready to collect data from MapReduce. However, we have not finished running out code in dataproc. Therefore, we are still working on that. 
 
-- Once we have our data, we will create traffice level maps using map_ny.py.
+- Once we have our data, we will create traffic level maps using map_ny.py.
