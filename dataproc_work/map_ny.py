@@ -6,7 +6,7 @@ import pickle, re, sys, osmnx as ox
 import matplotlib.pyplot as plt
 
 NODE_RE = re.compile('[0-9]{6,}')
-TIME_RE = re.compile('[0-9]\.[0-9]{1,}')chan
+TIME_RE = re.compile('[0-9]\.[0-9]{1,}')
 YEAR_RE = re.compile('y[0-9]{4}')
 DAY_RE = re.compile('[a-z]{3}')
 
