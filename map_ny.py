@@ -78,7 +78,7 @@ def map(fname, year, tod, nodes, edges):
 
             alpha = min(1, 0.05 * time_spent)
 
-            plt.plot([lon1, lon2], [lat1, lat2], 'r', linewidth = 1, 
+            plt.plot([lat1, lat2], [lon1, lon2], 'r', linewidth = 1, 
                 alpha = alpha)
 
         except:
