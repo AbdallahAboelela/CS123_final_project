@@ -7,11 +7,6 @@ import matplotlib.pyplot as plt
 
 ONE_PERCENT = ['output/christ_eve.csv', 'output/christmas.csv']
 
-# NODE_RE = re.compile('[0-9]{6,}')
-# TIME_RE = re.compile('[0-9]\.[0-9]{1,}')
-# YEAR_RE = re.compile('y[0-9]{4}')
-# DAY_RE = re.compile('[a-z]{3}')
-
 COLORS = {
     'mor':'y',
     'aft':'g',
@@ -68,8 +63,11 @@ def get_formatted_edges(res_fname):
 
     return edges
 
-def map(fname, year, nodes, edges):
+def map(fname, year, tod, nodes, edges):
     filtered = edges[edges['year'] == year]
+
+    if tod != 'full':
+        filtered = filtered[filtered['tod'] == tod]
     
     for _, row in filtered.iterrows():
         _, n1, n2, time_spent, tod = row
@@ -78,14 +76,16 @@ def map(fname, year, nodes, edges):
             lat1, lon1 = nodes.loc[n1]
             lat2, lon2 = nodes.loc[n2]
 
-            plt.plot([lat1, lat2], [lon1, lon2], COLORS[tod], linewidth = 1, 
-                alpha = 0.075 * time_spent)
+            alpha = min(1, 0.05 * time_spent)
+
+            plt.plot([lon1, lon2], [lat1, lat2], 'r', linewidth = 1, 
+                alpha = alpha)
 
         except:
             pass
 
     plt.axis('off')
-    plt.savefig('maps/{}_{}.png'.format(fname, year), bbox_inches = 'tight')
+    plt.savefig('maps/{}_{}_{}.png'.format(fname, year, tod), bbox_inches = 'tight')
     plt.clf()
 
 if __name__ == "__main__":
@@ -98,8 +98,9 @@ if __name__ == "__main__":
         edges = get_formatted_edges('output/' + fname)
 
         for year in range(2009, 2017):
-                print('{}, {}'.format(fname[:-4], year))
-                map(fname[:-4], year, nodes, edges)
+            for tod in tods:
+                print('{}, {}, {}'.format(fname[:-4], year, tod))
+                map(fname[:-4], year, tod, nodes, edges)
 
 
 
