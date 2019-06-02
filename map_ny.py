@@ -36,19 +36,14 @@ def get_items(line):
 
     year, n1, n2, tod, time = line.split(',')
 
-    return int(year), str(tod), int(n1), int(n2), float(time[:-1])
+    return int(year), str(tod.strip(' ')), int(n1), int(n2), float(time[:-1])
 
 def get_formatted_edges(res_fname):
-    # edges = pd.read_csv(res_fname, header = None)
-
     tods = []
     years = []
     n1s = []
     n2s = []
     times = []
-
-    # for row in edges.iterrows():
-    #     year, tod, n1, n2, time = get_regex(str(row))
 
     with open(res_fname) as f:
         for line in f:
@@ -84,13 +79,14 @@ def map(fname, year, nodes, edges):
             lat2, lon2 = nodes.loc[n2]
 
             plt.plot([lat1, lat2], [lon1, lon2], COLORS[tod], linewidth = 1, 
-                alpha = 0.01 * time_spent)
+                alpha = 0.075 * time_spent)
 
         except:
             pass
 
-    plt.show()
-    # plt.savefig('maps/{}_{}.png'.format(fname, year), bbox_inches = 'tight')
+    plt.axis('off')
+    plt.savefig('maps/{}_{}.png'.format(fname, year), bbox_inches = 'tight')
+    plt.clf()
 
 if __name__ == "__main__":
     tods = ['mor', 'aft', 'eve', 'nit', 'full']
