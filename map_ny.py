@@ -7,11 +7,12 @@ import matplotlib.pyplot as plt
 
 ONE_PERCENT = ['output/christ_eve.csv', 'output/christmas.csv']
 
-COLORS = {
-    'mor':'y',
-    'aft':'g',
-    'eve':'r',
-    'nit':'b'
+TIMES = {
+    'mor':'6am to 12pm',
+    'aft':'12pm to 6pm',
+    'eve':'6pm to 12am',
+    'nit':'12am to 6am',
+    'full': '24 hours'
     }
 
 def get_nodes(g_fname):
@@ -70,7 +71,7 @@ def map(fname, year, tod, nodes, edges):
         filtered = filtered[filtered['tod'] == tod]
     
     for _, row in filtered.iterrows():
-        _, n1, n2, time_spent, tod = row
+        _, n1, n2, time_spent, _ = row
 
         try:
             lat1, lon1 = nodes.loc[n1]
@@ -83,7 +84,9 @@ def map(fname, year, tod, nodes, edges):
 
         except:
             pass
-
+    
+    plt.title('{}_{} {}'.format(fname, year, TIMES[tod]), loc = 'left')
+    plt.axis((-74.05, -73.825, 40.6, 40.925))
     plt.axis('off')
     plt.savefig('maps/{}_{}_{}.png'.format(fname, year, tod), bbox_inches = 'tight')
     plt.clf()
