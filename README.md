@@ -1,8 +1,6 @@
 README
 =========================== 
 
-## Libraries Used
-
 ## Explanation of our Codes
 
 ## dataproc_work Folder
@@ -32,7 +30,6 @@ Contains code from OSMNX library that we use for MapReduce. Had to copy function
 #### extract_csv.py 
 Given interested dates want to analyze in main file (run_project.py), extract relevant csv files in google cloud bucket (csv files that include interested dates). 
 
-
 ### (4) Connecting to SSH
 
 #### ssh_connect.py
@@ -45,39 +42,11 @@ Given interested dates want to analyze in main file (run_project.py), extract re
 
 #### map_ny.py 
 
-
 ## osmnx_work Folder
 
 ### (1) create_network.py 
 Constructs New York Street Netwrok geodataframe.
 
-
-
-
-## Done
-1. Adjusted osmnx to give shortest paths in terms of time.  
-See files XXXXX for how this was done and see Notes below for how to access  
-
-2. Converting parquet files in GCS bucket to csv (currently running on 4 VM instances - 13 May, 2019)  
-See file convert_PRQT.py on how this was done and see Notes below for how to access  
-convert_BQ.py was a failed attempt at doing the same thing through BigQuery  
-
-## To do
-1. Write file to create csv with paths and total times using MRjob given csv file or files 
-2. Write file to plot paths given csv output from MRjob  
-
-## Notes
-To use our adjusted osmnx, see file: XXXXX  
-
-To pull files from GCS bucket, use gsutil command  
-> gsutil cp gs://kasa_nyc_taxi_data/converted_data/\[FILENAME] \[DEST_DIRECTORY]  
-For more, see: https://cloud.google.com/storage/docs/gsutil  
-
-### Note for Kei (how to use MRJOB):
-(1) export GOOGLE_APPLICATION_CREDENTIALS=/Users/keiirizawa/Desktop/kei_api_key.json
-(1) export GOOGLE_APPLICATION_CREDENTIALS=/Users/adamalexanderoppenheimer/Desktop/new_google_api_key.json
-(2) time python3 mr_trips.py -r dataproc --num-core-instances 4 --conf-path /Users/keiirizawa/Desktop/CS123_final_project/dataproc_work/mrjob.conf csvs/first_hundred.csv > dataproc_output.csv
-(2) time python3 mr_trips.py -r dataproc --num-core-instances 4 --conf-path /Users/adamalexanderoppenheimer/Desktop/CS123_final_project/dataproc_work/mrjob.conf csvs/first_hundred.csv > dataproc_output.csv
 
 
 
