@@ -1,8 +1,6 @@
 README
 =========================== 
 
-## Explanation of our Codes
-
 ## dataproc_work Folder
 
 ### (1) Main File
@@ -46,22 +44,4 @@ Given interested dates want to analyze in main file (run_project.py), extract re
 
 ### (1) create_network.py 
 Constructs New York Street Netwrok geodataframe.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
