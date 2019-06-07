@@ -1,0 +1,1 @@
+Updated map_ny.py to remove pandas usage when reading the output files for the first time. Now uses generic python file open instead. Also ran map_ny to get maps which are in the folder called "maps".
